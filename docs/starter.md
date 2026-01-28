@@ -1,0 +1,28 @@
+Okay so we are building an modern sas platform In Anyone can come login And create an agent for their website or a chat bot for their website which is trained on their custom data.
+
+The app name is "piona". The app is simple easy to interact web application.
+
+## UI Guide
+
+The app ui should be simplistic There should be a neighbour at top with our main logo You can find all the logos in the asset folder There are two logos One is for black theme one is for the white theme. And one is the fab icon That we need to use at the top. Now the ui should be really clean it should have a dark and Bright mode Which should be edditable on tapping avtar on navbar through a drop down. Also we have installed Next js in this folder Along with shad cn ui components And I strictly suggest you to follow and use the components in the library. This way we will we will be able to Make UI.
+
+We are currently in the development phase so we are not looking for any authentication system we are looking for the absolute thing that we need right now is the working application. We are building Mvp And We do not require Any irrelevant functionality as of now. The ui should be in black or white theme And there should be a landing page after tapping on the top of the landing nav bar we should be getting to our dashboard. This is where we can create our custom services.
+
+## Functionality
+
+Now talking about the functionality we want simple functionality this is a next js project but if you need you can instal python server as well and I'm totally ok with that. We are building rag as a service Project in which user can Store their files this could be their menu from their restaurants or their company docs And V will use rag and create a rag for them that They can Use easily with their existing technologies. We will offer web embed Chad bot that will directly be intractable Or we will give them apis to interact with the chat bot that we just created for them. User can create and manage resources they can upload pdf Excel files And much more and we would take care of embedding chunking and everything else on the back end. The vector embeddings and anything that you will need a Would be guided by me And we are looking to scale for this so we need to plan the architecture as best as we can.
+Also we need to provide a feature where user can interact with the chat bot to ask questions and if the response is not accurate or not correct He can send a dislike or correction message to the backend In which he will tell why this response was not accurate and what could be the accurate response look like In this way we would be training our System or the bot for that particular service.
+
+We will provide them multiple embeddings and multiple methods but In the front end and in the back end services for now we will be disabled link and focusing on any one functionality 1 database 1 embedding method is one algorithm And we will disable every other thing in the drop down in front end so that the user cannot select but User should see that this feature will be launching.
+
+---
+
+We will also create a source tab in which the user will be uploading all the sources in there we will be allowing them to create a table like structure where they can store their data and their references their inferences And everything around the data so that it would be easy for us to access those data And in that table we can directly allow them to upload a excel What is csv file. So primarily for the initial functionality to work we are just working with the CSV And Excel functions. We will work with the Pdfs word files and other document types in the later phases of the development. I've talked about a chit chat feature where user can interact with their custom on our site and Review or give a feedback about the responses. In this We need to also show what was the prompt given to the AI what was the context and what was the chunk chosen by the embedding algorithm So that they can clearly see where the things went wrong. We will have a special section for writing styles Where user would define what kind of writing styles they would like And also they They can also enter The examples of that particular writing styles.
+
+---
+
+## Database and Backend
+
+The database we will be using is supabase imo. However if you have any other database that you would like me to use please do let me know. And for the vector database I would like to hear your suggestion that would work for our mvp the best same for goes for the Apis and all other kind of things Your suggestions would be my guideline. If you want to host a python server that is totally up to you and I have no objection in that but make sure you have a clear communication within both of the servers Dealing things separately And cleanly.
+
+If you have any doubt that you would like to ask please go ahead ask even the simplest doubt that would be causing a small effect on our application because we want this application to be pixel perfect for on the ui to the back end everything to the simplest to the most complex part Everything should be working As best as. Make sure I have told you that we are not using any authentication system but Make sure you are using or creating the architecture in such a way that we will be able to integrate all kind of functionalities in the later phases of development easily so that please take care that we will be having an authentication id in the auth folder or maybe some N tables so that later on when we are going to launch the Application we do not have to deal with multiple things at once or we do not need to make much migrations in the databases.
