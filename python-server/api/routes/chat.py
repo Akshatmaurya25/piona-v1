@@ -73,7 +73,7 @@ async def chat(request: ChatRequest):
         ]
 
         # Step 7: Save response
-        save_chat_message(
+        message_id = save_chat_message(
             service_id=request.service_id,
             session_id=session_id,
             role="assistant",
@@ -90,7 +90,8 @@ async def chat(request: ChatRequest):
             prompt_used=prompt_used,
             context_used=context,
             chunks_used=chunk_infos,
-            session_id=session_id
+            session_id=session_id,
+            message_id=message_id
         )
 
     except HTTPException:

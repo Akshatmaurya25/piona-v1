@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useCallback, useEffect, useRef, use } from "react"
+import { useRouter } from "next/navigation"
 import {
   Upload,
   FileSpreadsheet,
@@ -11,6 +12,7 @@ import {
   AlertCircle,
   Loader2,
   RefreshCw,
+  ChevronRight,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
@@ -51,6 +53,7 @@ export default function SourcesPage({
   params: Promise<{ serviceId: string }>
 }) {
   const { serviceId } = use(params)
+  const router = useRouter()
   const [sources, setSources] = useState<Source[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [isDragging, setIsDragging] = useState(false)
@@ -257,10 +260,19 @@ export default function SourcesPage({
                 const status = statusConfig[source.status as keyof typeof statusConfig]
                 const StatusIcon = status.icon
 
+                const isClickable = source.status === "completed"
+
                 return (
                   <div
                     key={source.id}
-                    className="flex items-center justify-between py-4 first:pt-0 last:pb-0"
+                    className={`flex items-center justify-between py-4 first:pt-0 last:pb-0 ${
+                      isClickable ? "cursor-pointer hover:bg-muted/50 -mx-4 px-4 rounded-md transition-colors" : ""
+                    }`}
+                    onClick={() => {
+                      if (isClickable) {
+                        router.push(`/dashboard/services/${serviceId}/sources/${source.id}`)
+                      }
+                    }}
                   >
                     <div className="flex items-center gap-3">
                       <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted">
@@ -306,10 +318,16 @@ export default function SourcesPage({
                       <Button
                         variant="ghost"
                         size="icon-sm"
-                        onClick={() => handleDelete(source.id)}
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          handleDelete(source.id)
+                        }}
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
+                      {isClickable && (
+                        <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                      )}
                     </div>
                   </div>
                 )

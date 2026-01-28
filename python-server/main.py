@@ -58,10 +58,17 @@ app.include_router(chat.router, prefix="/api", tags=["Chat"])
 @app.on_event("startup")
 async def startup_event():
     from config import HOST, PORT, EMBEDDING_MODEL, CHAT_MODEL, MAX_CONTEXT_CHUNKS, SIMILARITY_THRESHOLD, SUPABASE_URL, OPENAI_API_KEY
+    from services.database import init_database
 
     logger.info("=" * 60)
     logger.info("🚀 PIONA RAG SERVER STARTING")
     logger.info("=" * 60)
+
+    # Initialize database connection
+    db_connected = init_database()
+    if not db_connected:
+        logger.warning("Database connection failed - will retry on first request")
+
     logger.info(f"Debug mode: {DEBUG}")
     logger.info(f"Server: {HOST}:{PORT}")
     logger.info(f"Docs: /docs" if DEBUG else "Docs: disabled")

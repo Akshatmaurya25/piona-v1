@@ -10,10 +10,23 @@ import {
   Bot,
   User,
   AlertCircle,
+  Loader2,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { Label } from "@/components/ui/label"
 import { Card, CardContent } from "@/components/ui/card"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
 import { cn } from "@/lib/utils"
 
 interface ChunkInfo {
@@ -25,6 +38,7 @@ interface ChunkInfo {
 
 interface Message {
   id: string
+  dbId?: string // Database ID for feedback API
   role: "user" | "assistant"
   content: string
   prompt_used?: string
@@ -46,6 +60,13 @@ export default function ChatPage({
   const [expandedDebug, setExpandedDebug] = useState<string | null>(null)
   const [sessionId, setSessionId] = useState<string | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+
+  // Feedback dialog state
+  const [feedbackDialogOpen, setFeedbackDialogOpen] = useState(false)
+  const [feedbackMessageId, setFeedbackMessageId] = useState<string | null>(null)
+  const [feedbackIssue, setFeedbackIssue] = useState("")
+  const [feedbackExpected, setFeedbackExpected] = useState("")
+  const [isSubmittingFeedback, setIsSubmittingFeedback] = useState(false)
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -96,6 +117,7 @@ export default function ChatPage({
 
       const assistantMessage: Message = {
         id: crypto.randomUUID(),
+        dbId: data.message_id, // Database ID for feedback
         role: "assistant",
         content: data.response,
         prompt_used: data.prompt_used,
@@ -120,11 +142,107 @@ export default function ChatPage({
     }
   }
 
-  const handleFeedback = (messageId: string, type: "like" | "dislike") => {
-    setMessages((prev) =>
-      prev.map((m) => (m.id === messageId ? { ...m, feedback: type } : m))
-    )
-    // TODO: Send feedback to API
+  const handleFeedback = async (messageId: string, dbId: string | undefined, type: "like" | "dislike") => {
+    if (!dbId) {
+      // Silently return - button should be disabled anyway
+      return
+    }
+
+    if (type === "dislike") {
+      // Open dialog for dislike feedback
+      setFeedbackMessageId(messageId)
+      setFeedbackIssue("")
+      setFeedbackExpected("")
+      setFeedbackDialogOpen(true)
+    } else {
+      // For likes, submit directly
+      setMessages((prev) =>
+        prev.map((m) => (m.id === messageId ? { ...m, feedback: type } : m))
+      )
+
+      try {
+        await fetch(`/api/services/${serviceId}/feedback`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chatMessageId: dbId,
+            feedbackType: "like",
+          }),
+        })
+      } catch (error) {
+        console.error("Failed to submit feedback:", error)
+      }
+    }
+  }
+
+  const handleSubmitNegativeFeedback = async () => {
+    if (!feedbackMessageId) return
+
+    const message = messages.find((m) => m.id === feedbackMessageId)
+    if (!message?.dbId) {
+      console.error("No database ID available for feedback")
+      setFeedbackDialogOpen(false)
+      return
+    }
+
+    setIsSubmittingFeedback(true)
+    try {
+      await fetch(`/api/services/${serviceId}/feedback`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chatMessageId: message.dbId,
+          feedbackType: "dislike",
+          correctionMessage: feedbackIssue || undefined,
+          expectedResponse: feedbackExpected || undefined,
+        }),
+      })
+
+      // Update local state
+      setMessages((prev) =>
+        prev.map((m) =>
+          m.id === feedbackMessageId ? { ...m, feedback: "dislike" } : m
+        )
+      )
+
+      setFeedbackDialogOpen(false)
+    } catch (error) {
+      console.error("Failed to submit feedback:", error)
+    } finally {
+      setIsSubmittingFeedback(false)
+    }
+  }
+
+  const handleSkipFeedback = async () => {
+    if (!feedbackMessageId) return
+
+    const message = messages.find((m) => m.id === feedbackMessageId)
+    if (!message?.dbId) {
+      setFeedbackDialogOpen(false)
+      return
+    }
+
+    // Submit dislike without details
+    try {
+      await fetch(`/api/services/${serviceId}/feedback`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chatMessageId: message.dbId,
+          feedbackType: "dislike",
+        }),
+      })
+
+      setMessages((prev) =>
+        prev.map((m) =>
+          m.id === feedbackMessageId ? { ...m, feedback: "dislike" } : m
+        )
+      )
+    } catch (error) {
+      console.error("Failed to submit feedback:", error)
+    }
+
+    setFeedbackDialogOpen(false)
   }
 
   const toggleDebug = (messageId: string) => {
@@ -139,6 +257,54 @@ export default function ChatPage({
           Test your chatbot and review responses
         </p>
       </div>
+
+      {/* Negative Feedback Dialog */}
+      <AlertDialog open={feedbackDialogOpen} onOpenChange={setFeedbackDialogOpen}>
+        <AlertDialogContent className="sm:max-w-md">
+          <AlertDialogHeader>
+            <AlertDialogTitle>What went wrong?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Help us improve by telling us what the agent did wrong and what the correct response should be. This is optional.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="feedback-issue">What did the agent do wrong?</Label>
+              <Textarea
+                id="feedback-issue"
+                placeholder="The response was inaccurate because..."
+                value={feedbackIssue}
+                onChange={(e) => setFeedbackIssue(e.target.value)}
+                rows={3}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="feedback-expected">What should the correct response be?</Label>
+              <Textarea
+                id="feedback-expected"
+                placeholder="The correct response should be..."
+                value={feedbackExpected}
+                onChange={(e) => setFeedbackExpected(e.target.value)}
+                rows={3}
+              />
+            </div>
+          </div>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={handleSkipFeedback}>
+              Skip
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleSubmitNegativeFeedback}
+              disabled={isSubmittingFeedback}
+            >
+              {isSubmittingFeedback && (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              )}
+              Submit Feedback
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       {/* Chat Messages */}
       <Card className="flex flex-1 flex-col overflow-hidden">
@@ -204,7 +370,9 @@ export default function ChatPage({
                           <Button
                             variant="ghost"
                             size="icon-xs"
-                            onClick={() => handleFeedback(message.id, "like")}
+                            onClick={() => handleFeedback(message.id, message.dbId, "like")}
+                            disabled={!message.dbId}
+                            title={message.dbId ? "Like this response" : "Feedback unavailable for this message"}
                             className={cn(
                               message.feedback === "like" && "text-green-500"
                             )}
@@ -215,8 +383,10 @@ export default function ChatPage({
                             variant="ghost"
                             size="icon-xs"
                             onClick={() =>
-                              handleFeedback(message.id, "dislike")
+                              handleFeedback(message.id, message.dbId, "dislike")
                             }
+                            disabled={!message.dbId}
+                            title={message.dbId ? "Dislike this response" : "Feedback unavailable for this message"}
                             className={cn(
                               message.feedback === "dislike" && "text-red-500"
                             )}

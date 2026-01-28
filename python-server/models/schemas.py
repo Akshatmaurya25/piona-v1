@@ -54,6 +54,7 @@ class ChatResponse(BaseModel):
     context_used: str
     chunks_used: List[ChunkInfo]
     session_id: str
+    message_id: Optional[str] = None  # ID of the assistant message for feedback
 
 
 class HealthResponse(BaseModel):

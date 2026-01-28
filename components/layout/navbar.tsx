@@ -18,6 +18,9 @@ export function Navbar({ showDashboardLink = true }: NavbarProps) {
         </Link>
 
         <div className="flex items-center gap-2">
+          <Button variant="ghost" asChild>
+            <Link href="/pricing">Pricing</Link>
+          </Button>
           {showDashboardLink && (
             <Button variant="ghost" asChild>
               <Link href="/dashboard">Dashboard</Link>

@@ -4,7 +4,18 @@ export interface Service {
   name: string
   description: string | null
   embedding_method: string
+  api_key: string
   created_at: string
+}
+
+export interface WidgetConfig {
+  primaryColor: string
+  backgroundColor: string
+  textColor: string
+  userBubbleColor: string
+  botBubbleColor: string
+  accentColor: string
+  fontFamily: string
 }
 
 export interface Source {
