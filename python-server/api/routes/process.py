@@ -21,13 +21,13 @@ async def process_file_task(
     """Background task to process a file"""
     logger.info(f"📦 Processing: {file_path}")
 
-    # Fresh client for background task
+  
     bg_client = create_supabase()
 
     try:
         update_source_status(source_id, "processing", client=bg_client)
 
-        # Download file
+      
         file_response = bg_client.storage.from_("source-files").download(file_path)
         if not file_response:
             raise Exception("Failed to download file")

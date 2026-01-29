@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from api.routes import health, process, chat
 from config import DEBUG
 
-# Configure logging
+
 logging.basicConfig(
     level=logging.DEBUG if DEBUG else logging.INFO,
     format='%(asctime)s | %(levelname)-8s | %(name)-20s | %(message)s',
@@ -14,8 +14,6 @@ logging.basicConfig(
         logging.StreamHandler(sys.stdout)
     ]
 )
-
-# Set third-party loggers to WARNING to reduce noise
 logging.getLogger("httpx").setLevel(logging.WARNING)
 logging.getLogger("httpcore").setLevel(logging.WARNING)
 logging.getLogger("openai").setLevel(logging.WARNING)
@@ -42,14 +40,14 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:3000",
         "http://127.0.0.1:3000",
-        # Add your production domain here
+        "https://piona.fun",
+         "https://www.piona.fun"
     ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Include routers
 app.include_router(health.router, prefix="/api", tags=["Health"])
 app.include_router(process.router, prefix="/api", tags=["Processing"])
 app.include_router(chat.router, prefix="/api", tags=["Chat"])
