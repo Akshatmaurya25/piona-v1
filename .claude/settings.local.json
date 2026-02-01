@@ -5,7 +5,8 @@
       "Bash(npm run build:*)",
       "Bash(dir:*)",
       "Bash(git add:*)",
-      "Bash(git reset:*)"
+      "Bash(git reset:*)",
+      "Bash(npx next build)"
     ]
   }
 }

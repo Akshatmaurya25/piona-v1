@@ -11,6 +11,7 @@ import {
   User,
   AlertCircle,
   Loader2,
+  RotateCcw,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -28,6 +29,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 import { cn } from "@/lib/utils"
+import { useServices } from "@/lib/contexts/services-context"
 
 interface ChunkInfo {
   id: string
@@ -54,6 +56,9 @@ export default function ChatPage({
   params: Promise<{ serviceId: string }>
 }) {
   const { serviceId } = use(params)
+  const { getService } = useServices()
+  const service = getService(serviceId)
+  const botName = service?.name || "Chat Assistant"
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState("")
   const [isLoading, setIsLoading] = useState(false)
@@ -249,6 +254,12 @@ export default function ChatPage({
     setExpandedDebug(expandedDebug === messageId ? null : messageId)
   }
 
+  const handleResetChat = () => {
+    setMessages([])
+    setSessionId(null)
+    setExpandedDebug(null)
+  }
+
   return (
     <div className="container mx-auto flex h-[calc(100vh-8rem)] flex-col px-4 py-8">
       <div className="mb-4">
@@ -306,9 +317,35 @@ export default function ChatPage({
         </AlertDialogContent>
       </AlertDialog>
 
-      {/* Chat Messages */}
+      {/* Chat Card */}
       <Card className="flex flex-1 flex-col overflow-hidden">
         <CardContent className="flex flex-1 flex-col overflow-hidden p-0">
+          {/* Chat Header Bar */}
+          <div className="flex items-center justify-between border-b px-4 py-3">
+            <div className="flex items-center gap-3">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-brand/10">
+                <Bot className="h-4 w-4 text-brand" />
+              </div>
+              <div>
+                <h2 className="text-sm font-semibold">{botName}</h2>
+                <div className="flex items-center gap-1.5">
+                  <span className="h-2 w-2 rounded-full bg-amber-500" />
+                  <span className="text-xs text-muted-foreground">Draft Environment</span>
+                </div>
+              </div>
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleResetChat}
+              className="text-xs"
+            >
+              <RotateCcw className="mr-1.5 h-3 w-3" />
+              Reset Chat
+            </Button>
+          </div>
+
+          {/* Chat Messages */}
           <div className="flex-1 overflow-y-auto p-4">
             {messages.length === 0 ? (
               <div className="flex h-full flex-col items-center justify-center text-center">
@@ -335,7 +372,7 @@ export default function ChatPage({
                         className={cn(
                           "flex h-8 w-8 shrink-0 items-center justify-center rounded-full",
                           message.role === "user"
-                            ? "bg-primary text-primary-foreground"
+                            ? "bg-brand text-white"
                             : message.error
                               ? "bg-destructive/10 text-destructive"
                               : "bg-muted"
@@ -353,13 +390,28 @@ export default function ChatPage({
                         className={cn(
                           "max-w-[80%] rounded-lg px-4 py-2",
                           message.role === "user"
-                            ? "bg-primary text-primary-foreground"
+                            ? "bg-brand text-white"
                             : message.error
                               ? "bg-destructive/10 text-destructive"
-                              : "bg-muted"
+                              : "bg-card border border-border"
                         )}
                       >
                         <p className="whitespace-pre-wrap">{message.content}</p>
+
+                        {/* Source citation badges for assistant messages */}
+                        {message.role === "assistant" && !message.error && message.chunks_used && message.chunks_used.length > 0 && (
+                          <div className="mt-2 flex flex-wrap gap-1.5 border-t border-border/50 pt-2">
+                            {message.chunks_used.map((chunk, i) => (
+                              <span
+                                key={chunk.id}
+                                className="inline-flex items-center rounded-full bg-muted px-2 py-0.5 text-[10px] font-medium text-muted-foreground"
+                                title={chunk.content.slice(0, 200)}
+                              >
+                                Source {i + 1} &middot; {(chunk.similarity * 100).toFixed(0)}%
+                              </span>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     </div>
 
@@ -482,7 +534,7 @@ export default function ChatPage({
                     <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-muted">
                       <Bot className="h-4 w-4" />
                     </div>
-                    <div className="rounded-lg bg-muted px-4 py-2">
+                    <div className="rounded-lg border border-border bg-card px-4 py-2">
                       <div className="flex gap-1">
                         <span className="h-2 w-2 animate-bounce rounded-full bg-muted-foreground [animation-delay:-0.3s]" />
                         <span className="h-2 w-2 animate-bounce rounded-full bg-muted-foreground [animation-delay:-0.15s]" />
@@ -511,10 +563,18 @@ export default function ChatPage({
                 placeholder="Ask a question..."
                 disabled={isLoading}
               />
-              <Button type="submit" disabled={!input.trim() || isLoading}>
+              <Button
+                type="submit"
+                disabled={!input.trim() || isLoading}
+                className="bg-brand text-white hover:bg-brand/80"
+              >
                 <Send className="h-4 w-4" />
               </Button>
             </form>
+            {/* Model info footer */}
+            <p className="mt-2 text-xs text-muted-foreground">
+              Model: GPT-4o &middot; Temperature: 0.7 &middot; Last updated: Just now
+            </p>
           </div>
         </CardContent>
       </Card>

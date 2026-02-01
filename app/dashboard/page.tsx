@@ -1,7 +1,9 @@
 "use client"
 
+import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { Bot, Loader2 } from "lucide-react"
+import { Bot, Loader2, Plus } from "lucide-react"
+import { Button } from "@/components/ui/button"
 import { ServiceCard } from "@/components/services/service-card"
 import { CreateServiceDialog } from "@/components/services/create-service-dialog"
 import { useServices } from "@/lib/contexts/services-context"
@@ -9,6 +11,7 @@ import { useServices } from "@/lib/contexts/services-context"
 export default function DashboardPage() {
   const router = useRouter()
   const { services, isLoading, error, addService, deleteService } = useServices()
+  const [createOpen, setCreateOpen] = useState(false)
 
   const handleCreateService = async (name: string, description: string) => {
     try {
@@ -54,10 +57,13 @@ export default function DashboardPage() {
         <div>
           <h1 className="text-2xl font-bold">Your Services</h1>
           <p className="text-muted-foreground">
-            Manage your RAG chatbot services
+            Manage and monitor your AI chatbots
           </p>
         </div>
-        <CreateServiceDialog onCreateService={handleCreateService} />
+        <Button variant="brand" onClick={() => setCreateOpen(true)}>
+          <Plus className="mr-2 h-4 w-4" />
+          Create Service
+        </Button>
       </div>
 
       {services.length === 0 ? (
@@ -67,7 +73,10 @@ export default function DashboardPage() {
           <p className="mb-4 text-sm text-muted-foreground">
             Create your first chatbot service to get started
           </p>
-          <CreateServiceDialog onCreateService={handleCreateService} />
+          <Button variant="brand" onClick={() => setCreateOpen(true)}>
+            <Plus className="mr-2 h-4 w-4" />
+            Create Service
+          </Button>
         </div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -78,8 +87,25 @@ export default function DashboardPage() {
               onDelete={handleDeleteService}
             />
           ))}
+          {/* Create New Service Card */}
+          <button
+            onClick={() => setCreateOpen(true)}
+            className="flex flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed border-muted-foreground/20 py-12 text-muted-foreground transition-colors hover:border-brand/40 hover:text-brand"
+          >
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-muted">
+              <Plus className="h-6 w-6" />
+            </div>
+            <span className="text-sm font-medium">Create New Service</span>
+          </button>
         </div>
       )}
+
+      <CreateServiceDialog
+        onCreateService={handleCreateService}
+        open={createOpen}
+        onOpenChange={setCreateOpen}
+        showTrigger={false}
+      />
     </div>
   )
 }

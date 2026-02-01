@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Piona - Service Integrations &amp; Widget Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#AA00FF", // Updated Accent
+                        "background-light": "#f9fafb", // Neutral light
+                        "background-dark": "#020617", // Neutral dark (Slate 950)
+                        "card-dark": "#1e293b", // Neutral card (Slate 800)
+                        "code-bg": "#1e1e2e",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"],
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }.custom-scrollbar::-webkit-scrollbar {
+            height: 8px;
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1e293b;}
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #475569;border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #AA00FF;}
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white overflow-hidden">
+<div class="flex h-screen w-full">
+<div class="hidden md:flex flex-col w-64 border-r border-slate-800 bg-[#0f172a] h-full shrink-0">
+<div class="flex flex-col h-full justify-between p-4">
+<div class="flex flex-col gap-6">
+<div class="flex gap-3 items-center px-2">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 shrink-0 border border-slate-700" data-alt="Abstract purple gradient avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuALeJ8plCl_XA3_dsGxlIB6suilE4Y-2pQiQDFiiwc9KG_JJDG6qFMqQyEEBTCLpm6NHqx4CVja-eO2eIR_ma-sOnHMQQDqYteFfqUdwWcznIND8WJtVqTjFDHnA6zD0yHwPG2HY1ls1mPJ23h94pMd2oHE7eKYQ0KZICO9XV1_XMyF1DIsIKmoXCgcuMb4njstzgjR9qP5tl3w8C6plh0zGO4-mGG8f5CGQL7EBLRZh3GJj6O39qECFsMbUfU3XqyG2czWcYWcWlO8");'></div>
+<div class="flex flex-col overflow-hidden">
+<h1 class="text-white text-base font-medium leading-normal truncate">Piona</h1>
+<p class="text-slate-400 text-xs font-normal leading-normal truncate">Pro Plan</p>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded hover:bg-slate-800 transition-colors group" href="#">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-white" style="font-size: 20px;">dashboard</span>
+<p class="text-slate-400 group-hover:text-white text-sm font-medium">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded hover:bg-slate-800 transition-colors group" href="#">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-white" style="font-size: 20px;">database</span>
+<p class="text-slate-400 group-hover:text-white text-sm font-medium">Data Sources</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded hover:bg-slate-800 transition-colors group" href="#">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-white" style="font-size: 20px;">chat_bubble</span>
+<p class="text-slate-400 group-hover:text-white text-sm font-medium">Chat Logs</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-primary" style="font-size: 20px;">settings_input_component</span>
+<p class="text-white text-sm font-medium">Integrations</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded hover:bg-slate-800 transition-colors group" href="#">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-white" style="font-size: 20px;">bar_chart</span>
+<p class="text-slate-400 group-hover:text-white text-sm font-medium">Analytics</p>
+</a>
+</div>
+</div>
+<div class="px-2">
+<button class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary hover:bg-primary/90 transition-colors text-white text-sm font-bold tracking-wide">
+                    Upgrade
+                </button>
+</div>
+</div>
+</div>
+<div class="flex-1 flex flex-col h-full overflow-hidden bg-background-light dark:bg-background-dark relative">
+<header class="flex-none px-8 py-6 border-b border-gray-200 dark:border-slate-800">
+<div class="max-w-6xl mx-auto">
+<div class="flex flex-col gap-2">
+<h1 class="text-slate-900 dark:text-white text-3xl font-bold tracking-tight">Service Integrations &amp; Widget Settings</h1>
+<p class="text-slate-500 dark:text-slate-400 text-base">Manage your API keys, customize your chat widget, and connect third-party tools.</p>
+</div>
+</div>
+</header>
+<main class="flex-1 overflow-y-auto px-8 py-8 custom-scrollbar">
+<div class="max-w-6xl mx-auto flex flex-col gap-10 pb-20">
+<section class="flex flex-col gap-4">
+<div class="flex items-center justify-between border-b border-gray-200 dark:border-slate-800 pb-2">
+<h2 class="text-slate-900 dark:text-white text-xl font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">key</span>
+                            API Access
+                        </h2>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+<div class="flex flex-col gap-4">
+<div class="bg-white dark:bg-card-dark p-6 rounded-lg border border-gray-200 dark:border-slate-800">
+<label class="block text-slate-700 dark:text-white text-sm font-medium mb-2">Project API Key</label>
+<div class="flex items-center gap-2">
+<div class="relative flex-1 group">
+<input class="w-full bg-slate-50 dark:bg-slate-950 border border-gray-300 dark:border-slate-700 text-slate-900 dark:text-white text-sm rounded px-3 py-2.5 focus:ring-primary focus:border-primary font-mono tracking-wide" readonly="" type="password" value="sk_live_51M0...92kd"/>
+<div class="absolute inset-y-0 right-0 flex items-center pr-3">
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">visibility_off</span>
+</button>
+</div>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-white px-4 py-2.5 rounded text-sm font-medium transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">content_copy</span>
+                                        Copy
+                                    </button>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-xs mt-3">
+                                    Your secret API key. Do not share this in client-side code.
+                                </p>
+</div>
+<div class="bg-white dark:bg-card-dark p-6 rounded-lg border border-gray-200 dark:border-slate-800 flex-1">
+<h3 class="text-slate-900 dark:text-white font-medium mb-4">Quick Start</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm mb-4">
+                                    Use this endpoint to interact with your trained RAG agent programmatically.
+                                </p>
+<a class="text-primary text-sm font-medium hover:underline flex items-center gap-1" href="#">
+                                    Read Full Documentation
+                                    <span class="material-symbols-outlined text-sm">arrow_outward</span>
+</a>
+</div>
+</div>
+<div class="flex flex-col rounded-lg overflow-hidden border border-slate-800 bg-[#1e1e2e] shadow-xl">
+<div class="flex border-b border-slate-800 bg-[#181825]">
+<button class="px-4 py-2.5 text-xs font-bold text-white border-b-2 border-primary bg-[#1e1e2e]">cURL</button>
+<button class="px-4 py-2.5 text-xs font-bold text-slate-400 hover:text-white border-b-2 border-transparent transition-colors">Python</button>
+<button class="px-4 py-2.5 text-xs font-bold text-slate-400 hover:text-white border-b-2 border-transparent transition-colors">JavaScript</button>
+</div>
+<div class="p-4 overflow-x-auto custom-scrollbar">
+<pre class="font-mono text-sm leading-relaxed"><span class="text-[#f778ba]">curl</span> <span class="text-[#a6e22e]">https://api.piona.ai/v1/chat/completions</span> \
+  -H <span class="text-[#e6db74]">"Content-Type: application/json"</span> \
+  -H <span class="text-[#e6db74]">"Authorization: Bearer sk_live_..."</span> \
+  -d <span class="text-[#e6db74]">'</span>{
+    <span class="text-[#a6e22e]">"model"</span>: <span class="text-[#e6db74]">"piona-rag-v2"</span>,
+    <span class="text-[#a6e22e]">"messages"</span>: [
+      {
+        <span class="text-[#a6e22e]">"role"</span>: <span class="text-[#e6db74]">"user"</span>,
+        <span class="text-[#a6e22e]">"content"</span>: <span class="text-[#e6db74]">"How do I integrate this?"</span>
+      }
+    ]
+  }<span class="text-[#e6db74]">'</span>
+</pre>
+</div>
+</div>
+</div>
+</section>
+<section class="flex flex-col gap-6 pt-6">
+<div class="flex items-center justify-between border-b border-gray-200 dark:border-slate-800 pb-2">
+<h2 class="text-slate-900 dark:text-white text-xl font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">widgets</span>
+                            Widget Configuration
+                        </h2>
+<button class="bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-900 dark:text-white px-4 py-2 rounded text-sm font-medium transition-colors">
+                            Save Changes
+                        </button>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="lg:col-span-2 flex flex-col gap-6">
+<div class="bg-white dark:bg-card-dark p-6 rounded-lg border border-gray-200 dark:border-slate-800">
+<h3 class="text-slate-900 dark:text-white font-medium mb-2">Embed Code</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm mb-4">Paste this script into your website's <code class="bg-slate-100 dark:bg-slate-900 px-1 rounded text-primary text-xs">&lt;head&gt;</code> tag.</p>
+<div class="relative bg-[#1e1e2e] rounded border border-slate-800 p-4 font-mono text-sm text-slate-300 overflow-x-auto custom-scrollbar">
+                                    &lt;script src="https://cdn.piona.ai/widget/v2.js" data-id="piona-123xyz" defer&gt;&lt;/script&gt;
+                                    <button class="absolute top-2 right-2 p-1.5 bg-slate-800 rounded hover:bg-primary text-white transition-colors" title="Copy">
+<span class="material-symbols-outlined text-base">content_copy</span>
+</button>
+</div>
+</div>
+<div class="bg-white dark:bg-card-dark p-6 rounded-lg border border-gray-200 dark:border-slate-800">
+<h3 class="text-slate-900 dark:text-white font-medium mb-4">Brand Colors</h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
+<div class="flex items-center justify-between p-2 rounded hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<div class="flex flex-col">
+<span class="text-slate-700 dark:text-white text-sm font-medium">Primary Color</span>
+<span class="text-slate-400 dark:text-slate-400 text-xs">Widget button &amp; header</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs font-mono text-slate-500 dark:text-slate-400 uppercase">#AA00FF</span>
+<input class="h-8 w-8 rounded cursor-pointer border-0 p-0" type="color" value="#AA00FF"/>
+</div>
+</div>
+<div class="flex items-center justify-between p-2 rounded hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<div class="flex flex-col">
+<span class="text-slate-700 dark:text-white text-sm font-medium">Text Color (Header)</span>
+<span class="text-slate-400 dark:text-slate-400 text-xs">Contrast for primary</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs font-mono text-slate-500 dark:text-slate-400 uppercase">#ffffff</span>
+<input class="h-8 w-8 rounded cursor-pointer border-0 p-0" type="color" value="#ffffff"/>
+</div>
+</div>
+<div class="flex items-center justify-between p-2 rounded hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<div class="flex flex-col">
+<span class="text-slate-700 dark:text-white text-sm font-medium">Bot Message BG</span>
+<span class="text-slate-400 dark:text-slate-400 text-xs">Background bubble</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs font-mono text-slate-500 dark:text-slate-400 uppercase">#f3f4f6</span>
+<input class="h-8 w-8 rounded cursor-pointer border-0 p-0" type="color" value="#f3f4f6"/>
+</div>
+</div>
+<div class="flex items-center justify-between p-2 rounded hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<div class="flex flex-col">
+<span class="text-slate-700 dark:text-white text-sm font-medium">Bot Text Color</span>
+<span class="text-slate-400 dark:text-slate-400 text-xs">Readable text</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs font-mono text-slate-500 dark:text-slate-400 uppercase">#1f2937</span>
+<input class="h-8 w-8 rounded cursor-pointer border-0 p-0" type="color" value="#1f2937"/>
+</div>
+</div>
+<div class="flex items-center justify-between p-2 rounded hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<div class="flex flex-col">
+<span class="text-slate-700 dark:text-white text-sm font-medium">User Message BG</span>
+<span class="text-slate-400 dark:text-slate-400 text-xs">Your reply bubble</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs font-mono text-slate-500 dark:text-slate-400 uppercase">#AA00FF</span>
+<input class="h-8 w-8 rounded cursor-pointer border-0 p-0" type="color" value="#AA00FF"/>
+</div>
+</div>
+<div class="flex items-center justify-between p-2 rounded hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<div class="flex flex-col">
+<span class="text-slate-700 dark:text-white text-sm font-medium">User Text Color</span>
+<span class="text-slate-400 dark:text-slate-400 text-xs">Contrast for user msg</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs font-mono text-slate-500 dark:text-slate-400 uppercase">#ffffff</span>
+<input class="h-8 w-8 rounded cursor-pointer border-0 p-0" type="color" value="#ffffff"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="lg:col-span-1">
+<div class="bg-gray-100 dark:bg-slate-950 rounded-xl border border-gray-200 dark:border-slate-800 h-full min-h-[500px] relative overflow-hidden shadow-inner flex flex-col items-center justify-center p-4">
+<p class="text-xs uppercase tracking-widest text-slate-400 dark:text-slate-500 font-bold mb-4">Live Preview</p>
+<div class="w-full h-full bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-gray-200 dark:border-slate-800 relative p-4 pointer-events-none opacity-50 blur-[1px]">
+<div class="h-4 w-1/3 bg-slate-200 dark:bg-slate-800 rounded mb-4"></div>
+<div class="h-2 w-full bg-slate-100 dark:bg-slate-800/50 rounded mb-2"></div>
+<div class="h-2 w-full bg-slate-100 dark:bg-slate-800/50 rounded mb-2"></div>
+<div class="h-2 w-2/3 bg-slate-100 dark:bg-slate-800/50 rounded mb-8"></div>
+<div class="grid grid-cols-2 gap-4">
+<div class="h-24 bg-slate-100 dark:bg-slate-800/50 rounded"></div>
+<div class="h-24 bg-slate-100 dark:bg-slate-800/50 rounded"></div>
+</div>
+</div>
+<div class="absolute bottom-6 right-6 w-80 shadow-2xl rounded-xl overflow-hidden flex flex-col animate-fade-in-up" style="animation: fade-in 0.5s ease-out;">
+<div class="bg-primary p-4 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="size-2 bg-green-400 rounded-full"></div>
+<span class="text-white font-medium text-sm">Piona Support</span>
+</div>
+<span class="material-symbols-outlined text-white cursor-pointer text-lg">close</span>
+</div>
+<div class="bg-white dark:bg-card-dark h-80 p-4 flex flex-col gap-4 overflow-y-auto">
+<div class="flex flex-col items-start gap-1 max-w-[85%]">
+<div class="bg-gray-100 dark:bg-slate-700 p-3 rounded-2xl rounded-tl-sm text-slate-800 dark:text-gray-200 text-sm">
+                                                Hi there! How can I help you integrate Piona today?
+                                            </div>
+<span class="text-[10px] text-gray-400 ml-1">Bot • 10:23 AM</span>
+</div>
+<div class="flex flex-col items-end gap-1 max-w-[85%] self-end">
+<div class="bg-primary p-3 rounded-2xl rounded-tr-sm text-white text-sm">
+                                                I need help with the Python SDK.
+                                            </div>
+<span class="text-[10px] text-gray-400 mr-1">You • 10:24 AM</span>
+</div>
+<div class="flex flex-col items-start gap-1 max-w-[85%]">
+<div class="bg-gray-100 dark:bg-slate-700 p-3 rounded-2xl rounded-tl-sm text-slate-800 dark:text-gray-200 text-sm">
+                                                Sure! Check out the "Integrations" tab for snippets. Would you like a direct link?
+                                            </div>
+<span class="text-[10px] text-gray-400 ml-1">Bot • 10:24 AM</span>
+</div>
+</div>
+<div class="bg-gray-50 dark:bg-slate-900 p-3 border-t border-gray-200 dark:border-slate-800 flex items-center gap-2">
+<input class="bg-transparent border-0 text-slate-900 dark:text-white text-sm w-full focus:ring-0 placeholder:text-gray-400" placeholder="Type a message..." type="text"/>
+<button class="text-primary hover:text-primary/80 transition-colors">
+<span class="material-symbols-outlined">send</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="flex flex-col gap-4 pt-6">
+<div class="flex items-center justify-between border-b border-gray-200 dark:border-slate-800 pb-2">
+<h2 class="text-slate-900 dark:text-white text-xl font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">extension</span>
+                           Platform Integrations
+                       </h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="group relative bg-white dark:bg-card-dark p-6 rounded-lg border border-gray-200 dark:border-slate-800 hover:border-primary/50 transition-all cursor-not-allowed">
+<div class="absolute top-4 right-4 bg-gray-200 dark:bg-slate-700 text-xs font-bold px-2 py-1 rounded text-slate-500 dark:text-gray-400 uppercase tracking-wide">Coming Soon</div>
+<div class="size-12 rounded bg-gray-100 dark:bg-slate-900 flex items-center justify-center mb-4 grayscale opacity-70">
+<img alt="Slack Logo" class="w-6 h-6" data-alt="Slack logo grayscale" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzYhR4sE8x88Qvm2f7zciGIX84sVrl-OklwUCssZHWmtTt97fDGrKmqJw4E6dCT8tLljGQWSaUMQP5wkUXM5C7WxfdomFHsl4_QSc5cdXHlXA-ClDIV5g70bDFj6QfuoGYpfE0WvLq6E59D6GhUYVx5Mcpw7NVz7DHxmsGM0zPM6mvp_h61yR0A6myM7JzkHGCW4Ukc0RCjNVDom3YLpy5tpOeyZiZ67QGhHs0vxdYXrV69SFcj5r63Pv0ShcJRq18zKB6AltJxJdI"/>
+</div>
+<h3 class="text-slate-900 dark:text-white font-bold text-lg mb-1 opacity-70">Slack</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm mb-4 opacity-70">Connect your chatbot to Slack channels for internal team support.</p>
+<button class="w-full py-2 rounded border border-gray-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 text-sm font-medium hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors">Notify Me</button>
+</div>
+<div class="group relative bg-white dark:bg-card-dark p-6 rounded-lg border border-gray-200 dark:border-slate-800 hover:border-primary/50 transition-all cursor-not-allowed">
+<div class="absolute top-4 right-4 bg-gray-200 dark:bg-slate-700 text-xs font-bold px-2 py-1 rounded text-slate-500 dark:text-gray-400 uppercase tracking-wide">Coming Soon</div>
+<div class="size-12 rounded bg-gray-100 dark:bg-slate-900 flex items-center justify-center mb-4 grayscale opacity-70">
+<img alt="Discord Logo" class="w-6 h-6" data-alt="Discord logo grayscale" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDadZIImc8gK-nvt3BZ2W6TZ_IUDB_GmlAdvw1a_pS8ffHVSKaR1vkddybO9YLVPh44R5NcmRI56n8wLnlT4Q5kVksiv8yYO0tyJffxtDJuGIRcLl5lftQAC76rH_gdPzzuNekhYi_iKqSS_NLZNT10WRVIUE1Sf0eG5jDX-7KcXe4FSGgz2Wr5iI34rofZpM2MCWrQb-NENAN-jXyxCnTFBf5f84B-sKgcCxXl0xJzqdRoudKCYB5gXlmKMsJ3PDF1GdW4AG5jyiMD"/>
+</div>
+<h3 class="text-slate-900 dark:text-white font-bold text-lg mb-1 opacity-70">Discord</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm mb-4 opacity-70">Deploy your RAG agent as a Discord bot for community engagement.</p>
+<button class="w-full py-2 rounded border border-gray-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 text-sm font-medium hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors">Notify Me</button>
+</div>
+<div class="border-2 border-dashed border-gray-300 dark:border-slate-700 rounded-lg p-6 flex flex-col items-center justify-center text-center gap-2 hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors cursor-pointer group">
+<div class="size-10 rounded-full bg-gray-100 dark:bg-slate-800 flex items-center justify-center group-hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-slate-400 dark:text-gray-500 group-hover:text-primary">add</span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Request Integration</p>
+</div>
+</div>
+</section>
+</div>
+</main>
+</div>
+</div>
+
+</body></html>

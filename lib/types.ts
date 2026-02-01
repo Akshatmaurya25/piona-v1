@@ -5,6 +5,11 @@ export interface Service {
   description: string | null
   embedding_method: string
   api_key: string
+  llm_provider: string
+  llm_api_key: string
+  status?: string
+  source_count?: number
+  chat_count?: number
   created_at: string
 }
 

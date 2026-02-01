@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import React, { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Copy, Check, FileCode } from "lucide-react"
@@ -20,11 +20,11 @@ interface SnippetInfo {
 }
 
 // Simple syntax highlighting function
-function highlightCode(code: string, language: "jsx" | "html"): JSX.Element[] {
+function highlightCode(code: string, language: "jsx" | "html"): React.ReactElement[] {
   const lines = code.split("\n")
 
   return lines.map((line, lineIndex) => {
-    let highlighted: (string | JSX.Element)[] = []
+    let highlighted: (string | React.ReactElement)[] = []
     let remaining = line
     let keyIndex = 0
 

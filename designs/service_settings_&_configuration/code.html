@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Piona - Service Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#AA00FF",
+                        "background-light": "#f8f5f8",
+                        "background-dark": "#1f0f23",
+                        "card-dark": "#2c1a32", // Slightly lighter than background-dark for cards
+                        "input-bg": "#36203d", // Input background
+                        "border-color": "#503956",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display antialiased">
+<div class="flex min-h-screen w-full flex-row overflow-x-hidden">
+<div class="hidden md:flex w-64 flex-col border-r border-border-color bg-background-dark p-4 shrink-0">
+<div class="flex flex-col h-full justify-between">
+<div class="flex flex-col gap-6">
+<div class="flex gap-3 items-center px-2">
+<div class="bg-primary/20 flex items-center justify-center rounded-lg size-10 text-primary">
+<span class="material-symbols-outlined">smart_toy</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-white text-base font-bold leading-none">Piona</h1>
+<p class="text-white/60 text-xs font-normal mt-1">SaaS Platform</p>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-white/70 hover:text-white hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="text-sm font-medium">Overview</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-white/70 hover:text-white hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">library_books</span>
+<span class="text-sm font-medium">Knowledge Base</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-white/70 hover:text-white hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">science</span>
+<span class="text-sm font-medium">Playground</span>
+</a>
+<div class="h-px bg-border-color my-2 mx-3"></div>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+</div>
+</div>
+<div class="flex items-center gap-3 px-3 py-3 rounded-lg border border-border-color bg-card-dark">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-8 bg-gray-600" data-alt="User avatar placeholder" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB6iZ2RQQBhAIk-VPkLODAXHuevFgVwMyGpbltABD6-5gBlmKQgsRBoN5DqLfu3REZf-CPuncBJL8HrjB55o_RFhXazGDR35WM1xbRqzCOqGUSooznwmtjgVd8jEBzk2kxx3ry4AkJnqjIelRDQpvP8wl7XwjWNQGtLJIR8zx53A7knp17n8xZm1Vg8_wbU7b0_MNT_oSbzKsH5AACDYY6wcdOoL7MjyOqMU_CA9wCtiRcoFotjU5ML_IxkwiRQKqphFU8uvSYq7W3R");'></div>
+<div class="flex flex-col">
+<p class="text-white text-sm font-medium leading-none">Alex Morgan</p>
+<p class="text-white/50 text-xs font-normal mt-1">Pro Plan</p>
+</div>
+</div>
+</div>
+</div>
+<div class="flex-1 flex flex-col min-w-0 bg-background-light dark:bg-background-dark">
+<div class="px-6 md:px-12 pt-8 pb-4 border-b border-border-color/30">
+<div class="flex flex-wrap gap-2 items-center mb-4">
+<a class="text-slate-500 dark:text-[#b59abc] text-sm font-medium hover:text-primary transition-colors" href="#">Dashboard</a>
+<span class="text-slate-400 dark:text-[#b59abc]/50 text-sm font-medium">/</span>
+<a class="text-slate-500 dark:text-[#b59abc] text-sm font-medium hover:text-primary transition-colors" href="#">Support-Bot-v1</a>
+<span class="text-slate-400 dark:text-[#b59abc]/50 text-sm font-medium">/</span>
+<span class="text-slate-900 dark:text-white text-sm font-medium">Service Settings</span>
+</div>
+<div class="flex flex-wrap justify-between items-end gap-4">
+<div class="flex flex-col gap-1">
+<h1 class="text-3xl font-black tracking-tight text-slate-900 dark:text-white">Service Settings</h1>
+<p class="text-slate-600 dark:text-[#b59abc] text-base">Manage configuration and providers for Support-Bot-v1</p>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 rounded bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-sm font-medium text-slate-700 dark:text-white hover:bg-slate-50 dark:hover:bg-white/10 transition-colors">Discard</button>
+<button class="px-4 py-2 rounded bg-primary hover:bg-primary/90 text-white text-sm font-medium shadow-lg shadow-primary/20 transition-all">Save Changes</button>
+</div>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto px-6 md:px-12 py-8">
+<div class="max-w-3xl mx-auto flex flex-col gap-8">
+<div class="flex flex-col gap-4">
+<h2 class="text-lg font-bold text-slate-900 dark:text-white border-b border-border-color pb-2">General Information</h2>
+<div class="grid gap-6 p-6 rounded-lg bg-white dark:bg-card-dark border border-slate-200 dark:border-border-color shadow-sm">
+<label class="flex flex-col gap-2">
+<span class="text-sm font-medium text-slate-700 dark:text-white">Service Name</span>
+<input class="form-input w-full rounded border-slate-300 dark:border-border-color bg-slate-50 dark:bg-input-bg text-slate-900 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary px-3 py-2 text-sm placeholder:text-slate-400 dark:placeholder:text-white/30" type="text" value="Support-Bot-v1"/>
+</label>
+<label class="flex flex-col gap-2">
+<span class="text-sm font-medium text-slate-700 dark:text-white">Description</span>
+<textarea class="form-textarea w-full rounded border-slate-300 dark:border-border-color bg-slate-50 dark:bg-input-bg text-slate-900 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary px-3 py-2 text-sm resize-none placeholder:text-slate-400 dark:placeholder:text-white/30" rows="3">Customer support bot for Level 1 inquiries trained on Help Center articles.</textarea>
+<p class="text-xs text-slate-500 dark:text-white/40">This description helps you identify the bot in your dashboard.</p>
+</label>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<div class="flex justify-between items-end border-b border-border-color pb-2">
+<h2 class="text-lg font-bold text-slate-900 dark:text-white">RAG Configuration</h2>
+<span class="text-xs font-mono text-primary bg-primary/10 px-2 py-1 rounded">v2.4.0</span>
+</div>
+<div class="grid gap-6 p-6 rounded-lg bg-white dark:bg-card-dark border border-slate-200 dark:border-border-color shadow-sm">
+<div class="flex flex-col gap-2">
+<span class="text-sm font-medium text-slate-700 dark:text-white">Embedding Model</span>
+<div class="relative">
+<select class="form-select w-full rounded border-slate-300 dark:border-border-color bg-slate-50 dark:bg-input-bg text-slate-900 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary px-3 py-2 text-sm appearance-none">
+<option selected="" value="openai-small">OpenAI text-embedding-3-small</option>
+<option value="openai-large">OpenAI text-embedding-3-large</option>
+<option disabled="" value="cohere">Cohere Embed v3 (Coming Soon)</option>
+<option disabled="" value="local">Local BERT (Coming Soon)</option>
+</select>
+</div>
+<p class="text-xs text-slate-500 dark:text-white/40">Select the vector embedding model used to index your data. Changing this requires re-indexing.</p>
+</div>
+<div class="flex items-center justify-between py-2">
+<div class="flex flex-col">
+<span class="text-sm font-medium text-slate-700 dark:text-white">Hybrid Search</span>
+<span class="text-xs text-slate-500 dark:text-white/40">Combine keyword search with vector semantic search.</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/50 dark:peer-focus:ring-primary/30 rounded-full peer dark:bg-input-bg peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<h2 class="text-lg font-bold text-slate-900 dark:text-white border-b border-border-color pb-2">LLM Provider</h2>
+<div class="flex flex-col gap-4 p-6 rounded-lg bg-white dark:bg-card-dark border border-slate-200 dark:border-border-color shadow-sm">
+<span class="text-sm font-medium text-slate-700 dark:text-white">Select Provider</span>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-2">
+<label class="cursor-pointer relative flex items-center justify-between p-4 rounded border-2 border-primary bg-primary/5">
+<div class="flex items-center gap-3">
+<input checked="" class="text-primary focus:ring-primary bg-transparent border-slate-400" name="provider" type="radio"/>
+<span class="font-medium text-slate-900 dark:text-white">OpenAI</span>
+</div>
+<span class="material-symbols-outlined text-primary">check_circle</span>
+</label>
+<div class="relative flex items-center justify-between p-4 rounded border border-dashed border-slate-300 dark:border-white/10 opacity-50 cursor-not-allowed bg-slate-50 dark:bg-transparent">
+<div class="flex items-center gap-3">
+<div class="w-4 h-4 rounded-full border border-slate-400"></div>
+<span class="font-medium text-slate-900 dark:text-white">Anthropic</span>
+</div>
+<div class="flex items-center gap-1 text-xs font-mono text-slate-500 dark:text-white/40">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+                                    Enterprise
+                                </div>
+</div>
+<div class="relative flex items-center justify-between p-4 rounded border border-dashed border-slate-300 dark:border-white/10 opacity-50 cursor-not-allowed bg-slate-50 dark:bg-transparent">
+<div class="flex items-center gap-3">
+<div class="w-4 h-4 rounded-full border border-slate-400"></div>
+<span class="font-medium text-slate-900 dark:text-white">Google Vertex</span>
+</div>
+<div class="flex items-center gap-1 text-xs font-mono text-slate-500 dark:text-white/40">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+                                    Soon
+                                </div>
+</div>
+<div class="relative flex items-center justify-between p-4 rounded border border-dashed border-slate-300 dark:border-white/10 opacity-50 cursor-not-allowed bg-slate-50 dark:bg-transparent">
+<div class="flex items-center gap-3">
+<div class="w-4 h-4 rounded-full border border-slate-400"></div>
+<span class="font-medium text-slate-900 dark:text-white">Meta Llama</span>
+</div>
+<div class="flex items-center gap-1 text-xs font-mono text-slate-500 dark:text-white/40">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+                                    Soon
+                                </div>
+</div>
+</div>
+<div class="pt-4 border-t border-border-color/50">
+<label class="flex flex-col gap-2">
+<div class="flex justify-between">
+<span class="text-sm font-medium text-slate-700 dark:text-white">OpenAI API Key</span>
+<a class="text-xs text-primary hover:underline" href="#">Get your API key</a>
+</div>
+<div class="relative">
+<input class="form-input w-full rounded border-slate-300 dark:border-border-color bg-slate-50 dark:bg-input-bg text-slate-900 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary px-3 py-2 pr-10 text-sm font-mono tracking-wider" type="password" value="sk-proj-............................"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+<p class="text-xs text-slate-500 dark:text-white/40">Your key is encrypted at rest and never shared.</p>
+</label>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-4 pt-8">
+<div class="flex flex-col p-6 rounded-lg border border-red-500/30 bg-red-500/5">
+<h3 class="text-lg font-bold text-red-500 mb-2">Danger Zone</h3>
+<p class="text-sm text-slate-600 dark:text-white/70 mb-6">
+                            Deleting this service is irreversible. This will permanently remove the chatbot <strong class="text-white font-mono">Support-Bot-v1</strong> and delete the associated vector index from our servers.
+                        </p>
+<div class="flex justify-end">
+<button class="px-4 py-2 rounded bg-red-600/10 border border-red-600/50 text-red-500 dark:text-red-400 hover:bg-red-600 hover:text-white hover:border-red-600 transition-all text-sm font-medium flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">delete_forever</span>
+                                Delete Service
+                            </button>
+</div>
+</div>
+</div>
+<div class="h-20"></div>
+</div>
+</div>
+</div>
+</div>
+</body></html>

@@ -13,6 +13,7 @@ import {
   FileCode,
   BarChart3,
   Plug,
+  CreditCard,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Logo } from "./logo"
@@ -26,7 +27,11 @@ const serviceNavItems = [
   { label: "Feedback", href: "/feedback", icon: ThumbsUp },
   { label: "Integrations", href: "/integrations", icon: Plug },
   { label: "Styles", href: "/styles", icon: Pen },
-  { label: "Settings", href: "/settings", icon: Settings },
+]
+
+const bottomNavItems = [
+  { label: "Your Plan", href: "/pricing", icon: CreditCard, external: true },
+  { label: "Settings", href: "/settings", icon: Settings, external: false },
 ]
 
 export function Sidebar() {
@@ -54,8 +59,8 @@ export function Sidebar() {
           className={cn(
             "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
             pathname === "/dashboard"
-              ? "bg-sidebar-accent text-sidebar-accent-foreground"
-              : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+              ? "border-l-3 border-brand bg-brand/10 text-brand font-medium"
+              : "text-sidebar-foreground hover:bg-sidebar-accent/50"
           )}
         >
           <Home className="h-4 w-4 shrink-0" />
@@ -83,8 +88,8 @@ export function Sidebar() {
                     className={cn(
                       "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors",
                       isActive
-                        ? "bg-sidebar-accent text-sidebar-accent-foreground"
-                        : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                        ? "border-l-3 border-brand bg-brand/10 text-brand font-medium"
+                        : "text-sidebar-foreground hover:bg-sidebar-accent/50"
                     )}
                   >
                     <item.icon className="h-4 w-4 shrink-0" />
@@ -96,6 +101,32 @@ export function Sidebar() {
           </>
         )}
       </nav>
+
+      {/* Bottom Navigation */}
+      {currentServiceId && basePath && (
+        <div className="border-t p-2 space-y-1">
+          {bottomNavItems.map((item) => {
+            const href = item.external ? item.href : `${basePath}${item.href}`
+            const isActive = !item.external && pathname.startsWith(`${basePath}${item.href}`)
+
+            return (
+              <Link
+                key={item.label}
+                href={href}
+                className={cn(
+                  "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors",
+                  isActive
+                    ? "bg-sidebar-accent text-sidebar-accent-foreground"
+                    : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                )}
+              >
+                <item.icon className="h-4 w-4 shrink-0" />
+                <span>{item.label}</span>
+              </Link>
+            )
+          })}
+        </div>
+      )}
     </aside>
   )
 }

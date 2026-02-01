@@ -1,50 +1,97 @@
 "use client"
 
-import { useState, useCallback, useEffect, useRef, use } from "react"
+import { useState, useCallback, useEffect, useRef, use, useMemo } from "react"
 import { useRouter } from "next/navigation"
 import {
   Upload,
   FileSpreadsheet,
   File,
   Trash2,
-  CheckCircle,
-  Clock,
-  AlertCircle,
   Loader2,
   RefreshCw,
-  ChevronRight,
+  Plus,
+  Search,
+  MoreHorizontal,
+  FileText,
+  Globe,
+  Eye,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import type { Source } from "@/lib/types"
 
-const fileTypeConfig = {
-  csv: { icon: FileSpreadsheet, label: "CSV", enabled: true },
-  excel: { icon: FileSpreadsheet, label: "Excel", enabled: true },
-  pdf: { icon: File, label: "PDF", enabled: false },
-  docx: { icon: File, label: "Word", enabled: false },
+// File type icon mapping
+const fileTypeIcons: Record<string, typeof File> = {
+  csv: FileSpreadsheet,
+  excel: FileSpreadsheet,
+  pdf: FileText,
+  docx: FileText,
+  txt: FileText,
+  url: Globe,
 }
 
-const statusConfig: Record<
-  string,
-  {
-    icon: typeof Clock
-    label: string
-    variant: "secondary" | "default" | "destructive"
-    animate?: boolean
+// Badge color mapping for file types
+const fileTypeBadgeClasses: Record<string, string> = {
+  pdf: "bg-red-500/15 text-red-400 border border-red-500/20",
+  url: "bg-blue-500/15 text-blue-400 border border-blue-500/20",
+  csv: "bg-green-500/15 text-green-400 border border-green-500/20",
+  excel: "bg-green-500/15 text-green-400 border border-green-500/20",
+  docx: "bg-indigo-500/15 text-indigo-400 border border-indigo-500/20",
+  txt: "bg-yellow-500/15 text-yellow-400 border border-yellow-500/20",
+}
+
+const fileTypeLabels: Record<string, string> = {
+  csv: "CSV",
+  excel: "Excel",
+  pdf: "PDF",
+  docx: "DOCX",
+  txt: "TXT",
+  url: "URL",
+}
+
+// Map source status to display status
+function getDisplayStatus(status: string): "ready" | "processing" | "error" {
+  switch (status) {
+    case "completed":
+      return "ready"
+    case "processing":
+    case "pending":
+      return "processing"
+    case "failed":
+      return "error"
+    default:
+      return "processing"
   }
-> = {
-  pending: { icon: Clock, label: "Pending", variant: "secondary" },
-  processing: { icon: Loader2, label: "Processing", variant: "secondary", animate: true },
-  completed: { icon: CheckCircle, label: "Completed", variant: "default" },
-  failed: { icon: AlertCircle, label: "Failed", variant: "destructive" },
+}
+
+function formatFileSize(metadata: Record<string, unknown>): string {
+  const size = metadata?.file_size as number | undefined
+  if (!size) return "--"
+  if (size < 1024) return `${size} B`
+  if (size < 1024 * 1024) return `${(size / 1024).toFixed(1)} KB`
+  return `${(size / (1024 * 1024)).toFixed(1)} MB`
+}
+
+function formatDate(dateString: string): string {
+  const date = new Date(dateString)
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  })
 }
 
 export default function SourcesPage({
@@ -58,6 +105,11 @@ export default function SourcesPage({
   const [isLoading, setIsLoading] = useState(true)
   const [isDragging, setIsDragging] = useState(false)
   const [isUploading, setIsUploading] = useState(false)
+
+  // Search and filter state
+  const [searchQuery, setSearchQuery] = useState("")
+  const [typeFilter, setTypeFilter] = useState("all")
+  const [statusFilter, setStatusFilter] = useState("all")
 
   const fetchSources = useCallback(async () => {
     try {
@@ -91,6 +143,28 @@ export default function SourcesPage({
     }, 5000)
     return () => clearInterval(interval)
   }, [fetchSources])
+
+  // Filtered sources
+  const filteredSources = useMemo(() => {
+    return sources.filter((source) => {
+      // Search filter
+      if (searchQuery && !source.name.toLowerCase().includes(searchQuery.toLowerCase())) {
+        return false
+      }
+      // Type filter
+      if (typeFilter !== "all" && source.file_type !== typeFilter) {
+        return false
+      }
+      // Status filter
+      if (statusFilter !== "all") {
+        const displayStatus = getDisplayStatus(source.status)
+        if (displayStatus !== statusFilter) {
+          return false
+        }
+      }
+      return true
+    })
+  }, [sources, searchQuery, typeFilter, statusFilter])
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault()
@@ -174,167 +248,272 @@ export default function SourcesPage({
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="mb-8 flex items-center justify-between">
+      {/* Header */}
+      <div className="mb-8 flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Data Sources</h1>
-          <p className="text-muted-foreground">
-            Upload and manage your chatbot&apos;s knowledge base
+          <h1 className="text-2xl font-bold">Knowledge Base</h1>
+          <p className="mt-1 text-muted-foreground">
+            Manage the documents and URLs your AI uses to generate accurate answers.
+            Supported formats: PDF, CSV, TXT, DOCX.
           </p>
         </div>
-        <Button variant="outline" size="sm" onClick={fetchSources}>
-          <RefreshCw className="mr-2 h-4 w-4" />
-          Refresh
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm" onClick={fetchSources}>
+            <RefreshCw className="mr-2 h-4 w-4" />
+            Refresh
+          </Button>
+          <input
+            type="file"
+            id="file-upload"
+            className="hidden"
+            accept=".csv,.xlsx,.xls"
+            multiple
+            onChange={handleFileInput}
+            disabled={isUploading}
+          />
+          <Button variant="brand" asChild>
+            <label htmlFor="file-upload" className="cursor-pointer">
+              <Plus className="mr-2 h-4 w-4" />
+              Add Source
+            </label>
+          </Button>
+        </div>
       </div>
 
-      {/* Upload Area */}
-      <Card className="mb-8">
-        <CardContent className="pt-6">
-          <div
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
-            className={`flex flex-col items-center justify-center rounded-lg border-2 border-dashed p-12 transition-colors ${
-              isDragging
-                ? "border-primary bg-primary/5"
-                : "border-muted-foreground/25"
-            }`}
-          >
-            {isUploading ? (
-              <>
-                <Loader2 className="mb-4 h-12 w-12 animate-spin text-primary" />
-                <h3 className="mb-2 text-lg font-medium">Uploading...</h3>
-              </>
-            ) : (
-              <>
-                <Upload className="mb-4 h-12 w-12 text-muted-foreground" />
-                <h3 className="mb-2 text-lg font-medium">Upload your data</h3>
-                <p className="mb-4 text-sm text-muted-foreground">
-                  Drag and drop files here, or click to browse
-                </p>
-              </>
-            )}
-            <div className="mb-4 flex flex-wrap justify-center gap-2">
-              <Badge variant="default">CSV</Badge>
-              <Badge variant="default">Excel</Badge>
-              <Badge variant="outline" className="opacity-50">
-                PDF (Coming Soon)
-              </Badge>
-              <Badge variant="outline" className="opacity-50">
-                Word (Coming Soon)
-              </Badge>
-            </div>
-            <input
-              type="file"
-              id="file-upload"
-              className="hidden"
-              accept=".csv,.xlsx,.xls"
-              multiple
-              onChange={handleFileInput}
-              disabled={isUploading}
-            />
-            <Button asChild disabled={isUploading}>
-              <label htmlFor="file-upload" className="cursor-pointer">
-                Choose Files
-              </label>
-            </Button>
+      {/* Drag-and-drop upload zone (shown when dragging or uploading) */}
+      {(isDragging || isUploading) && (
+        <div
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+          onDrop={handleDrop}
+          className={`mb-6 flex flex-col items-center justify-center rounded-lg border-2 border-dashed p-12 transition-colors ${
+            isDragging
+              ? "border-brand bg-brand/5"
+              : "border-muted-foreground/25"
+          }`}
+        >
+          {isUploading ? (
+            <>
+              <Loader2 className="mb-4 h-12 w-12 animate-spin text-brand" />
+              <h3 className="mb-2 text-lg font-medium">Uploading...</h3>
+            </>
+          ) : (
+            <>
+              <Upload className="mb-4 h-12 w-12 text-muted-foreground" />
+              <h3 className="mb-2 text-lg font-medium">Drop files here to upload</h3>
+              <p className="text-sm text-muted-foreground">
+                Supported: CSV, Excel
+              </p>
+            </>
+          )}
+        </div>
+      )}
+
+      {/* Invisible drop target when not visibly dragging */}
+      {!isDragging && !isUploading && (
+        <div
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+          onDrop={handleDrop}
+          className="fixed inset-0 z-50 pointer-events-none"
+          style={{ pointerEvents: isDragging ? "auto" : "none" }}
+        />
+      )}
+
+      {/* Search & Filter Bar */}
+      <div className="mb-6 flex items-center gap-3">
+        <div className="relative flex-1 max-w-sm">
+          <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            placeholder="Search by filename..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-9"
+          />
+        </div>
+        <Select value={typeFilter} onValueChange={setTypeFilter}>
+          <SelectTrigger className="w-[140px]">
+            <SelectValue placeholder="All Types" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Types</SelectItem>
+            <SelectItem value="pdf">PDF</SelectItem>
+            <SelectItem value="url">URL</SelectItem>
+            <SelectItem value="csv">CSV</SelectItem>
+            <SelectItem value="docx">DOCX</SelectItem>
+            <SelectItem value="txt">TXT</SelectItem>
+          </SelectContent>
+        </Select>
+        <Select value={statusFilter} onValueChange={setStatusFilter}>
+          <SelectTrigger className="w-[150px]">
+            <SelectValue placeholder="All Status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Status</SelectItem>
+            <SelectItem value="ready">Ready</SelectItem>
+            <SelectItem value="processing">Processing</SelectItem>
+            <SelectItem value="error">Error</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      {/* Data Table */}
+      <div className="rounded-lg border border-border overflow-hidden">
+        {/* Table Header */}
+        <div className="grid grid-cols-[1fr_100px_90px_120px_120px_50px] gap-4 px-4 py-3 bg-muted/50 border-b border-border text-sm font-medium text-muted-foreground">
+          <span>Source Name</span>
+          <span>Type</span>
+          <span>Size</span>
+          <span>Added On</span>
+          <span>Status</span>
+          <span></span>
+        </div>
+
+        {/* Table Body */}
+        {filteredSources.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-16 text-muted-foreground">
+            <FileText className="mb-3 h-10 w-10 opacity-40" />
+            <p className="text-sm">
+              {sources.length === 0
+                ? "No sources added yet. Click \"Add Source\" to get started."
+                : "No sources match your filters."}
+            </p>
           </div>
-        </CardContent>
-      </Card>
+        ) : (
+          <div className="divide-y divide-border">
+            {filteredSources.map((source) => {
+              const fileType = source.file_type as string
+              const FileIcon = fileTypeIcons[fileType] || File
+              const badgeClass = fileTypeBadgeClasses[fileType] || "bg-muted text-muted-foreground"
+              const label = fileTypeLabels[fileType] || fileType.toUpperCase()
+              const displayStatus = getDisplayStatus(source.status)
+              const isClickable = source.status === "completed"
 
-      {/* Sources List */}
-      {sources.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Uploaded Sources</CardTitle>
-            <CardDescription>
-              {sources.length} source{sources.length !== 1 && "s"} uploaded
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="divide-y">
-              {sources.map((source) => {
-                const fileType =
-                  fileTypeConfig[source.file_type as keyof typeof fileTypeConfig] ||
-                  fileTypeConfig.csv
-                const status = statusConfig[source.status as keyof typeof statusConfig]
-                const StatusIcon = status.icon
-
-                const isClickable = source.status === "completed"
-
-                return (
-                  <div
-                    key={source.id}
-                    className={`flex items-center justify-between py-4 first:pt-0 last:pb-0 ${
-                      isClickable ? "cursor-pointer hover:bg-muted/50 -mx-4 px-4 rounded-md transition-colors" : ""
-                    }`}
-                    onClick={() => {
-                      if (isClickable) {
-                        router.push(`/dashboard/services/${serviceId}/sources/${source.id}`)
-                      }
-                    }}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted">
-                        <fileType.icon className="h-5 w-5 text-muted-foreground" />
-                      </div>
-                      <div>
-                        <p className="font-medium">{source.name}</p>
-                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                          <span>{fileType.label}</span>
-                          {(source.metadata as { row_count?: number })?.row_count && (
-                            <>
-                              <span>·</span>
-                              <span>
-                                {(source.metadata as { row_count?: number }).row_count} rows
-                              </span>
-                            </>
-                          )}
-                          {(source.metadata as { chunks_created?: number })?.chunks_created && (
-                            <>
-                              <span>·</span>
-                              <span>
-                                {(source.metadata as { chunks_created?: number }).chunks_created} chunks
-                              </span>
-                            </>
-                          )}
-                        </div>
-                        {source.error_message && (
-                          <p className="text-xs text-destructive">
-                            {source.error_message}
-                          </p>
-                        )}
-                      </div>
+              return (
+                <div
+                  key={source.id}
+                  className={`grid grid-cols-[1fr_100px_90px_120px_120px_50px] gap-4 px-4 py-3 items-center transition-colors ${
+                    isClickable
+                      ? "cursor-pointer hover:bg-muted/40"
+                      : ""
+                  }`}
+                  onClick={() => {
+                    if (isClickable) {
+                      router.push(
+                        `/dashboard/services/${serviceId}/sources/${source.id}`
+                      )
+                    }
+                  }}
+                >
+                  {/* Source Name */}
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-muted">
+                      <FileIcon className="h-4 w-4 text-muted-foreground" />
                     </div>
-                    <div className="flex items-center gap-2">
-                      <Badge variant={status.variant}>
-                        <StatusIcon
-                          className={`mr-1 h-3 w-3 ${
-                            status.animate ? "animate-spin" : ""
-                          }`}
-                        />
-                        {status.label}
-                      </Badge>
-                      <Button
-                        variant="ghost"
-                        size="icon-sm"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          handleDelete(source.id)
-                        }}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                      {isClickable && (
-                        <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                    <div className="min-w-0">
+                      <p className="truncate font-medium text-sm">
+                        {source.name}
+                      </p>
+                      {source.error_message && (
+                        <p className="truncate text-xs text-destructive">
+                          {source.error_message}
+                        </p>
                       )}
                     </div>
                   </div>
-                )
-              })}
-            </div>
-          </CardContent>
-        </Card>
+
+                  {/* Type Badge */}
+                  <div>
+                    <span
+                      className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${badgeClass}`}
+                    >
+                      {label}
+                    </span>
+                  </div>
+
+                  {/* Size */}
+                  <span className="text-sm text-muted-foreground">
+                    {formatFileSize(source.metadata)}
+                  </span>
+
+                  {/* Added On */}
+                  <span className="text-sm text-muted-foreground">
+                    {formatDate(source.created_at)}
+                  </span>
+
+                  {/* Status */}
+                  <div className="flex items-center gap-2">
+                    {displayStatus === "ready" && (
+                      <>
+                        <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                        <span className="text-sm text-emerald-500">Ready</span>
+                      </>
+                    )}
+                    {displayStatus === "processing" && (
+                      <>
+                        <Loader2 className="h-3.5 w-3.5 animate-spin text-brand" />
+                        <span className="text-sm text-brand">Processing</span>
+                      </>
+                    )}
+                    {displayStatus === "error" && (
+                      <>
+                        <span className="h-2 w-2 rounded-full bg-red-500" />
+                        <span className="text-sm text-red-500">Error</span>
+                      </>
+                    )}
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex justify-end">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="icon-sm"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <MoreHorizontal className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        {isClickable && (
+                          <DropdownMenuItem
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              router.push(
+                                `/dashboard/services/${serviceId}/sources/${source.id}`
+                              )
+                            }}
+                          >
+                            <Eye className="mr-2 h-4 w-4" />
+                            View Details
+                          </DropdownMenuItem>
+                        )}
+                        <DropdownMenuItem
+                          variant="destructive"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            handleDelete(source.id)
+                          }}
+                        >
+                          <Trash2 className="mr-2 h-4 w-4" />
+                          Delete
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        )}
+      </div>
+
+      {/* Footer summary */}
+      {sources.length > 0 && (
+        <div className="mt-3 text-sm text-muted-foreground">
+          {filteredSources.length} of {sources.length} source{sources.length !== 1 ? "s" : ""}
+        </div>
       )}
     </div>
   )

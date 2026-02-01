@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Piona - Chatbot Test Interface</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#AA00FF",
+                        "background-light": "#f8f5f8",
+                        "background-dark": "#1f0f23",
+                        "surface-dark": "#2a1f2e",
+                        "surface-darker": "#171018",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #36273a;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4a3550;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-hidden h-screen flex">
+<aside class="w-64 flex flex-col border-r border-slate-200 dark:border-[#36273a] bg-white dark:bg-surface-darker shrink-0 z-20">
+<div class="p-6 pb-2">
+<div class="flex items-center gap-3 mb-8">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 shrink-0" data-alt="Abstract geometric purple logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDwb4oshG__3jnSRTM7J1q7S3x23_IH3Bb8dzm0om0s6vCVZeXgyfJJU2YbqM0PnPs7XmTlpLXspkPpfJDCs5RhuSKD-Xkh0diSnPpJRFipmyD7DwMtlx2wHizLzPyP5n6gpNCoRAN8ik4XXAprAR3weuo7V8PZLns1rvpaYlg8vMj66r6N7hsOfMRDyJUIvo1Na7whIjrzIrjbPeYfoiUy5bLk8p8hXxNTSb5mj7ZxspTOqZGC_wfCMfXZ0U7TODbEEsOisHXjXqmV");'></div>
+<div class="flex flex-col">
+<h1 class="text-base font-bold leading-none tracking-tight">Piona</h1>
+<p class="text-slate-500 dark:text-[#b59abc] text-xs mt-1">RAG Builder</p>
+</div>
+</div>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#36273a] transition-colors group" href="#">
+<span class="material-symbols-outlined text-[22px] group-hover:text-primary transition-colors">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#36273a] transition-colors group" href="#">
+<span class="material-symbols-outlined text-[22px] group-hover:text-primary transition-colors">database</span>
+<span class="text-sm font-medium">Knowledge Base</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary dark:bg-[#36273a] dark:text-white border-l-4 border-primary dark:border-primary" href="#">
+<span class="material-symbols-outlined text-[22px] text-primary dark:text-white" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+<span class="text-sm font-bold">Chat Test</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#36273a] transition-colors group" href="#">
+<span class="material-symbols-outlined text-[22px] group-hover:text-primary transition-colors">bar_chart</span>
+<span class="text-sm font-medium">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#36273a] transition-colors group" href="#">
+<span class="material-symbols-outlined text-[22px] group-hover:text-primary transition-colors">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+</nav>
+</div>
+<div class="mt-auto p-4 border-t border-slate-200 dark:border-[#36273a]">
+<div class="bg-slate-50 dark:bg-[#251b29] rounded-lg p-3">
+<div class="flex justify-between items-center mb-2">
+<span class="text-xs font-semibold text-slate-500 dark:text-slate-400">SESSION STATS</span>
+<span class="flex size-2 rounded-full bg-green-500"></span>
+</div>
+<div class="grid grid-cols-2 gap-2 text-xs">
+<div>
+<p class="text-slate-400 dark:text-slate-500 mb-0.5">Latency</p>
+<p class="font-mono text-slate-700 dark:text-slate-200">240ms</p>
+</div>
+<div>
+<p class="text-slate-400 dark:text-slate-500 mb-0.5">Tokens</p>
+<p class="font-mono text-slate-700 dark:text-slate-200">145 / 4k</p>
+</div>
+</div>
+</div>
+<button class="w-full mt-4 flex items-center justify-center gap-2 rounded-lg h-10 bg-primary text-white text-sm font-bold shadow-lg hover:bg-primary/90 transition-all">
+<span class="material-symbols-outlined text-[20px]">rocket_launch</span>
+                Deploy Bot
+            </button>
+</div>
+</aside>
+<main class="flex-1 flex flex-col relative h-full">
+<header class="flex items-center justify-between px-8 py-4 border-b border-slate-200 dark:border-[#36273a] bg-white dark:bg-surface-darker z-10 shrink-0">
+<div class="flex items-center gap-4">
+<div class="size-9 bg-primary/10 rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">smart_toy</span>
+</div>
+<div>
+<h2 class="text-lg font-bold leading-tight">Support Bot v1.2</h2>
+<div class="flex items-center gap-2">
+<span class="inline-block size-1.5 rounded-full bg-yellow-500"></span>
+<span class="text-xs text-slate-500 dark:text-[#b59abc] font-medium">Draft Environment</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center bg-slate-100 dark:bg-[#251b29] rounded-lg p-1 border border-slate-200 dark:border-[#36273a]">
+<button class="px-3 py-1.5 rounded bg-white dark:bg-[#36273a] shadow-sm text-xs font-medium dark:text-white">Preview</button>
+<button class="px-3 py-1.5 rounded text-xs font-medium text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200">Logic</button>
+</div>
+<button class="flex items-center justify-center gap-2 h-9 px-4 rounded-lg border border-slate-200 dark:border-[#36273a] text-slate-600 dark:text-white text-sm font-semibold hover:bg-slate-50 dark:hover:bg-[#36273a] transition-colors">
+<span class="material-symbols-outlined text-[18px]">restart_alt</span>
+                    Reset Chat
+                </button>
+</div>
+</header>
+<div class="flex-1 flex justify-center overflow-hidden bg-slate-50 dark:bg-[#120c13] relative">
+<div class="w-full max-w-[900px] flex flex-col h-full bg-white dark:bg-surface-darker border-x border-slate-200 dark:border-[#36273a] shadow-sm">
+<div class="flex-1 overflow-y-auto p-6 flex flex-col gap-6" id="chat-container">
+<div class="flex justify-center my-2">
+<span class="text-xs text-slate-400 dark:text-slate-600 font-medium px-3 py-1 rounded-full bg-slate-100 dark:bg-[#251b29]">Today, 10:23 AM</span>
+</div>
+<div class="flex items-end gap-3 max-w-[85%] self-start group">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-8 shrink-0 border border-slate-200 dark:border-[#36273a]" data-alt="Bot avatar icon" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDUOnLBWqieIqk4kEhkbvUU5McJ_jR4CKLffhybO7mS3W4aE9j2OSkad34ZpnMdvhUt140v-xPyyT1uAruUK0gbJP5pYgAW_nWYe0BsDTqmRAK6wa0V36LKUJnr7fTLDbODa0s-x97WNRiwHK4As91DcUEv7aXmkru0CfKZ8UBH01wp6gQT1W3RyljC780M05RhEbmUILm230ZJzbWmTGGVpQlNfYm_TeJMH-EwuMDghI4xplS1sIMngEO5ELsk5qV07qIe7bMN6xe2");'></div>
+<div class="flex flex-col gap-1">
+<div class="flex items-baseline gap-2 ml-1">
+<span class="text-xs font-semibold text-slate-700 dark:text-slate-300">Support Bot</span>
+</div>
+<div class="px-4 py-3 bg-slate-100 dark:bg-[#2a1f2e] text-slate-800 dark:text-slate-100 rounded-2xl rounded-bl-sm border border-transparent dark:border-[#36273a] shadow-sm">
+<p class="text-[15px] leading-relaxed">Bot initialized. I'm connected to your knowledge base. Ask me about Piona documentation.</p>
+</div>
+</div>
+</div>
+<div class="flex items-end gap-3 max-w-[85%] self-end flex-row-reverse group">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-8 shrink-0 border border-slate-200 dark:border-[#36273a]" data-alt="User avatar icon" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCBwcM9ORr6q2GRd8o5Qn5Q4NdNHW8ytVA-BLBSY50GDIntMjb8ZB75UebEpVpT5uA6ZbKCeBpzv96vUytdRU8o2SEfUiYzNGI7BQJJpYqsHQJan5OMWwDkL2j7TF6LSnuxnRfIKyPzdl59uo6llVsla2L20t2xLxeggJ646TazwOGP_Qmlc0cYm6fWLn9YOqKEw0rrVCjIuHwXQ_Que35APvO39zJfDhN17zKoZ4Lw_bRsfuJofq910Zm7TWm3Ty4S8if186Os70_J");'></div>
+<div class="flex flex-col gap-1 items-end">
+<div class="flex items-baseline gap-2 mr-1">
+<span class="text-xs font-semibold text-slate-700 dark:text-slate-300">You</span>
+</div>
+<div class="px-4 py-3 bg-primary text-white rounded-2xl rounded-br-sm shadow-md">
+<p class="text-[15px] leading-relaxed">How do I upload a PDF to the knowledge base?</p>
+</div>
+</div>
+</div>
+<div class="flex items-end gap-3 max-w-[85%] self-start group">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-8 shrink-0 border border-slate-200 dark:border-[#36273a]" data-alt="Bot avatar icon" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBE-ghCEGYMlX5RHvVb5p5rkaURt38Ac-tlx8eaLuJTKYUvPKvfQ77Q14FKvOeputMb6eXO55jtGz9kbq_m2KLGyxiVFO02Sfdqo4VuKxUSAUVSno6BRv54SG6JU13atsJBiMv7D727YCVj3O293iS05Q_zn6gqeucA5LGJG0gAAGpAf5jDYEqhDpAhVNP5_w17nzng_B24bIQcrYbSZUOVXsq8l760vcWcEyT3RLSNYwaHPKTFw7z9m9JGf7VUqdGEf3GC7DyptUpZ");'></div>
+<div class="flex flex-col gap-1">
+<div class="flex items-baseline gap-2 ml-1">
+<span class="text-xs font-semibold text-slate-700 dark:text-slate-300">Support Bot</span>
+</div>
+<div class="px-4 py-3 bg-slate-100 dark:bg-[#2a1f2e] text-slate-800 dark:text-slate-100 rounded-2xl rounded-bl-sm border border-transparent dark:border-[#36273a] shadow-sm relative">
+<p class="text-[15px] leading-relaxed mb-3">To upload a PDF, navigate to the <strong>Knowledge Base</strong> tab on the left sidebar. Click on the "Add Source" button and select "PDF Upload".</p>
+<p class="text-[15px] leading-relaxed">Once uploaded, the system will automatically parse and index the document for RAG retrieval.</p>
+<div class="mt-4 pt-3 border-t border-slate-200 dark:border-[#36273a]/50 flex flex-wrap gap-2">
+<div class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md bg-white dark:bg-[#1f1523] border border-slate-200 dark:border-[#36273a] hover:border-primary/50 cursor-pointer transition-colors group/source">
+<span class="material-symbols-outlined text-[14px] text-primary">description</span>
+<span class="text-xs font-medium text-slate-600 dark:text-slate-300 group-hover/source:text-primary">Data Ingestion Guide (p.4)</span>
+</div>
+<div class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md bg-white dark:bg-[#1f1523] border border-slate-200 dark:border-[#36273a] hover:border-primary/50 cursor-pointer transition-colors group/source">
+<span class="material-symbols-outlined text-[14px] text-primary">link</span>
+<span class="text-xs font-medium text-slate-600 dark:text-slate-300 group-hover/source:text-primary">API Docs</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-6 pt-2 bg-white dark:bg-surface-darker">
+<div class="relative flex items-center gap-2 p-2 bg-slate-50 dark:bg-[#251b29] border border-slate-200 dark:border-[#36273a] rounded-xl focus-within:border-primary focus-within:ring-1 focus-within:ring-primary/50 transition-all shadow-sm">
+<button class="p-2 text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 rounded-lg hover:bg-slate-200 dark:hover:bg-[#36273a] transition-colors">
+<span class="material-symbols-outlined">add_circle</span>
+</button>
+<input class="flex-1 bg-transparent border-none focus:ring-0 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-sm h-10" placeholder="Type a message to test..." type="text"/>
+<div class="flex items-center gap-1">
+<button class="p-2 text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 rounded-lg hover:bg-slate-200 dark:hover:bg-[#36273a] transition-colors" title="Debug Mode">
+<span class="material-symbols-outlined text-[20px]">bug_report</span>
+</button>
+<button class="flex items-center justify-center size-9 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors shadow-md ml-1">
+<span class="material-symbols-outlined text-[20px] ml-0.5">send</span>
+</button>
+</div>
+</div>
+<div class="flex justify-center mt-3">
+<p class="text-[11px] text-slate-400 dark:text-slate-600">Model: GPT-4o • Temperature: 0.7 • Last updated: Just now</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

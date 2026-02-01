@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Piona Dashboard - Your Services</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#AA00FF",
+              "primary-hover": "#8a00d1",
+              "background-light": "#f8fafc",
+              "background-dark": "#0f172a",
+              "surface-dark": "#1e293b",
+              "border-dark": "#334155",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.375rem", "xl": "0.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white antialiased transition-colors duration-200">
+<div class="flex h-screen w-full overflow-hidden">
+<aside class="flex h-full w-[224px] flex-col border-r border-slate-200 dark:border-border-dark bg-white dark:bg-[#020617] flex-shrink-0">
+<div class="flex h-16 items-center px-4 border-b border-slate-100 dark:border-border-dark/30">
+<div class="flex items-center gap-3">
+<div class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/20 text-primary">
+<span class="material-symbols-outlined text-[20px]">smart_toy</span>
+</div>
+<span class="text-lg font-bold text-slate-900 dark:text-white">Piona</span>
+</div>
+</div>
+<nav class="flex-1 overflow-y-auto py-4 px-2 space-y-1">
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 bg-primary/10 text-primary" href="#">
+<span class="material-symbols-outlined text-[20px] font-variation-settings-'FILL'-1">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-surface-dark dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">database</span>
+<span class="text-sm font-medium">Sources</span>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-surface-dark dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">key</span>
+<span class="text-sm font-medium">API Keys</span>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-surface-dark dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+</nav>
+<div class="p-4 border-t border-slate-200 dark:border-border-dark/50">
+<div class="flex items-center gap-3">
+<div class="h-8 w-8 rounded-full bg-cover bg-center ring-2 ring-primary/20" data-alt="User avatar profile picture" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBSpS2OknKzHSKyEXAScWeWR-r53DrLrpx5S_Xvl5g7F-5RKfSnyKs11ycwbuWimh1FUEHquNw17lGxA2nfnrFHvt9iZV11UAZ_8tAGXj7ylPwgXyJ-y8rJlD7C9uucU_QhPcejkZGqDD9LO_U6ua2MuzZVWnlDyeRH1G0BfSy2FEDU1tDWKZ9e5IzBC_HUFuIKC0drRykKww7IctgG9lPFBo0zOAMS9hQntx3-5auH_KCSq5OkUrKHrROnwxuDEqKy8EcUd-pfs6Ko');">
+</div>
+<div class="flex flex-col overflow-hidden">
+<span class="truncate text-sm font-medium text-slate-900 dark:text-white">Jane Doe</span>
+<span class="truncate text-xs text-slate-500 dark:text-slate-400">jane@piona.ai</span>
+</div>
+</div>
+</div>
+</aside>
+<main class="flex-1 overflow-y-auto h-full">
+<div class="flex h-full flex-col">
+<header class="w-full px-8 py-8">
+<div class="mx-auto max-w-6xl">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div class="flex flex-col gap-1">
+<h1 class="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">Your Services</h1>
+<p class="text-slate-500 dark:text-slate-400">Manage and monitor your AI chatbots</p>
+</div>
+<button class="flex items-center justify-center gap-2 rounded-lg bg-primary hover:bg-primary-hover text-white px-5 py-2.5 text-sm font-semibold shadow-lg shadow-primary/20 transition-all active:scale-95">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span>Create Service</span>
+</button>
+</div>
+</div>
+</header>
+<div class="flex-1 px-8 pb-12">
+<div class="mx-auto max-w-6xl">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="group relative flex flex-col rounded-xl border border-slate-200 bg-white p-5 shadow-sm hover:border-primary/50 hover:shadow-md dark:border-border-dark dark:bg-surface-dark dark:hover:border-primary/50 transition-all duration-300">
+<div class="mb-4 flex items-start justify-between">
+<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400">
+<span class="material-symbols-outlined">support_agent</span>
+</div>
+<span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-medium text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400">
+<span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+                                        Active
+                                    </span>
+</div>
+<h3 class="mb-1 text-lg font-bold text-slate-900 dark:text-white">Customer Support Bot</h3>
+<p class="mb-6 line-clamp-2 text-sm text-slate-500 dark:text-slate-400">Primary support agent for handling L1/L2 customer inquiries and documentation search.</p>
+<div class="mt-auto flex items-center gap-4 border-t border-slate-100 pt-4 dark:border-white/5">
+<div class="flex items-center gap-1.5 text-xs font-medium text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined text-[16px] text-slate-400">database</span>
+                                        12 Sources
+                                    </div>
+<div class="flex items-center gap-1.5 text-xs font-medium text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined text-[16px] text-slate-400">chat_bubble</span>
+                                        1.2k Chats
+                                    </div>
+</div>
+</div>
+<div class="group relative flex flex-col rounded-xl border border-slate-200 bg-white p-5 shadow-sm hover:border-primary/50 hover:shadow-md dark:border-border-dark dark:bg-surface-dark dark:hover:border-primary/50 transition-all duration-300">
+<div class="mb-4 flex items-start justify-between">
+<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400">
+<span class="material-symbols-outlined">description</span>
+</div>
+<span class="inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-medium text-amber-800 dark:bg-amber-900/30 dark:text-amber-400">
+<span class="h-1.5 w-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+                                        Training
+                                    </span>
+</div>
+<h3 class="mb-1 text-lg font-bold text-slate-900 dark:text-white">Internal Docs Agent</h3>
+<p class="mb-6 line-clamp-2 text-sm text-slate-500 dark:text-slate-400">Internal knowledge base assistant for engineering team onboarding and wiki search.</p>
+<div class="mt-auto flex items-center gap-4 border-t border-slate-100 pt-4 dark:border-white/5">
+<div class="flex items-center gap-1.5 text-xs font-medium text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined text-[16px] text-slate-400">database</span>
+                                        45 Sources
+                                    </div>
+<div class="flex items-center gap-1.5 text-xs font-medium text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined text-[16px] text-slate-400">chat_bubble</span>
+                                        0 Chats
+                                    </div>
+</div>
+</div>
+<div class="group relative flex flex-col rounded-xl border border-slate-200 bg-white p-5 shadow-sm hover:border-primary/50 hover:shadow-md dark:border-border-dark dark:bg-surface-dark dark:hover:border-primary/50 transition-all duration-300">
+<div class="mb-4 flex items-start justify-between">
+<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-pink-100 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400">
+<span class="material-symbols-outlined">shopping_cart</span>
+</div>
+<span class="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600 dark:bg-white/10 dark:text-slate-300">
+<span class="material-symbols-outlined text-[12px]">pause</span>
+                                        Paused
+                                    </span>
+</div>
+<h3 class="mb-1 text-lg font-bold text-slate-900 dark:text-white">Sales Assistant</h3>
+<p class="mb-6 line-clamp-2 text-sm text-slate-500 dark:text-slate-400">Lead qualification bot deployed on the marketing landing page.</p>
+<div class="mt-auto flex items-center gap-4 border-t border-slate-100 pt-4 dark:border-white/5">
+<div class="flex items-center gap-1.5 text-xs font-medium text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined text-[16px] text-slate-400">database</span>
+                                        8 Sources
+                                    </div>
+<div class="flex items-center gap-1.5 text-xs font-medium text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined text-[16px] text-slate-400">chat_bubble</span>
+                                        560 Chats
+                                    </div>
+</div>
+</div>
+<div class="group relative flex flex-col rounded-xl border border-slate-200 bg-white p-5 shadow-sm hover:border-primary/50 hover:shadow-md dark:border-border-dark dark:bg-surface-dark dark:hover:border-primary/50 transition-all duration-300">
+<div class="mb-4 flex items-start justify-between">
+<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-teal-100 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400">
+<span class="material-symbols-outlined">badge</span>
+</div>
+<span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-medium text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400">
+<span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+                                        Active
+                                    </span>
+</div>
+<h3 class="mb-1 text-lg font-bold text-slate-900 dark:text-white">HR Policy Bot</h3>
+<p class="mb-6 line-clamp-2 text-sm text-slate-500 dark:text-slate-400">Automated responses for employee handbook, benefits, and holiday inquiries.</p>
+<div class="mt-auto flex items-center gap-4 border-t border-slate-100 pt-4 dark:border-white/5">
+<div class="flex items-center gap-1.5 text-xs font-medium text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined text-[16px] text-slate-400">database</span>
+                                        32 Sources
+                                    </div>
+<div class="flex items-center gap-1.5 text-xs font-medium text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined text-[16px] text-slate-400">chat_bubble</span>
+                                        3.1k Chats
+                                    </div>
+</div>
+</div>
+<button class="group relative flex min-h-[220px] flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-slate-300 bg-slate-50/50 p-5 hover:border-primary hover:bg-slate-100 dark:border-border-dark dark:bg-transparent dark:hover:border-primary dark:hover:bg-white/5 transition-all duration-200">
+<div class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-200 dark:bg-white/10 group-hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-slate-400 dark:text-white/40 group-hover:text-primary">add</span>
+</div>
+<span class="text-sm font-semibold text-slate-600 dark:text-slate-300 group-hover:text-primary">Create New Service</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

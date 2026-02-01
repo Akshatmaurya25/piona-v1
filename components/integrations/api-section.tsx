@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import React, { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -15,11 +15,11 @@ interface ApiSectionProps {
 type CodeTab = "curl" | "javascript" | "python"
 
 // Simple syntax highlighting function
-function highlightCode(code: string, language: CodeTab): JSX.Element[] {
+function highlightCode(code: string, language: CodeTab): React.ReactElement[] {
   const lines = code.split("\n")
 
   return lines.map((line, lineIndex) => {
-    let highlighted: (string | JSX.Element)[] = []
+    let highlighted: (string | React.ReactElement)[] = []
     let remaining = line
     let keyIndex = 0
 

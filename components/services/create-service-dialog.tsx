@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Plus } from "lucide-react"
+import { Plus, Database, Brain, Cpu } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   AlertDialog,
@@ -17,6 +17,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
+import { Badge } from "@/components/ui/badge"
+import { cn } from "@/lib/utils"
 
 interface CreateServiceDialogProps {
   onCreateService: (name: string, description: string) => void
@@ -24,6 +26,30 @@ interface CreateServiceDialogProps {
   onOpenChange?: (open: boolean) => void
   showTrigger?: boolean
 }
+
+const serviceTypes = [
+  {
+    id: "rag",
+    label: "RAG Pipeline",
+    description: "Upload data and create a chatbot powered by retrieval-augmented generation",
+    icon: Database,
+    enabled: true,
+  },
+  {
+    id: "fine-tune",
+    label: "Fine-tune a Model",
+    description: "Fine-tune an existing LLM on your custom dataset",
+    icon: Brain,
+    enabled: false,
+  },
+  {
+    id: "train",
+    label: "Train from Scratch",
+    description: "Train a custom model from scratch using your data",
+    icon: Cpu,
+    enabled: false,
+  },
+]
 
 export function CreateServiceDialog({
   onCreateService,
@@ -34,6 +60,7 @@ export function CreateServiceDialog({
   const [internalOpen, setInternalOpen] = useState(false)
   const [name, setName] = useState("")
   const [description, setDescription] = useState("")
+  const [selectedType, setSelectedType] = useState("rag")
 
   // Use controlled or internal state
   const isControlled = controlledOpen !== undefined
@@ -45,6 +72,7 @@ export function CreateServiceDialog({
     if (!open) {
       setName("")
       setDescription("")
+      setSelectedType("rag")
     }
   }, [open])
 
@@ -53,6 +81,7 @@ export function CreateServiceDialog({
       onCreateService(name.trim(), description.trim())
       setName("")
       setDescription("")
+      setSelectedType("rag")
       onOpenChange?.(false)
     }
   }
@@ -67,15 +96,52 @@ export function CreateServiceDialog({
           </Button>
         </AlertDialogTrigger>
       )}
-      <AlertDialogContent>
+      <AlertDialogContent className="sm:max-w-lg">
         <AlertDialogHeader>
           <AlertDialogTitle>Create New Service</AlertDialogTitle>
           <AlertDialogDescription>
-            Create a new RAG chatbot service. You can upload data and configure
-            it after creation.
+            Choose your approach and create a new AI service.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <div className="grid gap-4 py-4">
+          {/* Service Type Selection */}
+          <div className="grid gap-2">
+            <Label>Service Type</Label>
+            <div className="grid gap-2">
+              {serviceTypes.map((type) => (
+                <button
+                  key={type.id}
+                  type="button"
+                  disabled={!type.enabled}
+                  onClick={() => type.enabled && setSelectedType(type.id)}
+                  className={cn(
+                    "flex items-start gap-3 rounded-lg border p-3 text-left transition-colors",
+                    selectedType === type.id
+                      ? "border-primary bg-primary/5 ring-1 ring-primary"
+                      : "hover:bg-muted/50",
+                    !type.enabled && "opacity-50 cursor-not-allowed"
+                  )}
+                >
+                  <type.icon className="h-5 w-5 mt-0.5 shrink-0 text-muted-foreground" />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-medium">{type.label}</span>
+                      {!type.enabled && (
+                        <Badge variant="secondary" className="text-[10px] px-1.5 py-0">
+                          Coming Soon
+                        </Badge>
+                      )}
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-0.5">
+                      {type.description}
+                    </p>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Service Name */}
           <div className="grid gap-2">
             <Label htmlFor="name">Service Name</Label>
             <Input
@@ -85,6 +151,8 @@ export function CreateServiceDialog({
               onChange={(e) => setName(e.target.value)}
             />
           </div>
+
+          {/* Description */}
           <div className="grid gap-2">
             <Label htmlFor="description">Description (optional)</Label>
             <Textarea
