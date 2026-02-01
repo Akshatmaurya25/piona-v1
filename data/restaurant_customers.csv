@@ -1,0 +1,5 @@
+customer_id,customer_name,phone,email,total_visits,last_visit_date,total_spend,favorite_item,notes
+1,Rahul Sharma,+91-9876543210,rahul@gmail.com,5,2026-01-28,2450,Paneer Butter Masala,Regular customer
+2,Ananya Verma,+91-9123456780,ananya@gmail.com,2,2026-01-25,980,Caesar Salad,Prefers healthy food
+3,Karan Mehta,+91-9988776655,karan@gmail.com,8,2026-01-30,4120,Grilled Chicken,High value customer
+4,Sneha Iyer,+91-9090909090,sneha@gmail.com,1,2026-01-20,420,Veg Burger,First time visit

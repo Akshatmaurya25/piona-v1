@@ -50,7 +50,7 @@ export function PricingCard({ tier, billingPeriod }: PricingCardProps) {
   return (
     <Card
       className={cn(
-        "relative flex flex-col",
+        "relative flex flex-col overflow-visible",
         highlighted && "ring-2 ring-brand shadow-lg scale-105"
       )}
     >

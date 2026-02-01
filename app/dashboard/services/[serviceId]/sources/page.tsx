@@ -9,13 +9,13 @@ import {
   Trash2,
   Loader2,
   RefreshCw,
-  Plus,
   Search,
   MoreHorizontal,
   FileText,
   Globe,
   Eye,
 } from "lucide-react"
+import { AddSourceDialog } from "@/components/sources/add-source-dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -262,21 +262,12 @@ export default function SourcesPage({
             <RefreshCw className="mr-2 h-4 w-4" />
             Refresh
           </Button>
-          <input
-            type="file"
-            id="file-upload"
-            className="hidden"
-            accept=".csv,.xlsx,.xls"
-            multiple
-            onChange={handleFileInput}
-            disabled={isUploading}
+          <AddSourceDialog
+            serviceId={serviceId}
+            onSourceAdded={(source) => {
+              setSources((prev) => [source as Source, ...prev])
+            }}
           />
-          <Button variant="brand" asChild>
-            <label htmlFor="file-upload" className="cursor-pointer">
-              <Plus className="mr-2 h-4 w-4" />
-              Add Source
-            </label>
-          </Button>
         </div>
       </div>
 

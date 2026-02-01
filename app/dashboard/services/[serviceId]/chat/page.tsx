@@ -261,13 +261,7 @@ export default function ChatPage({
   }
 
   return (
-    <div className="container mx-auto flex h-[calc(100vh-8rem)] flex-col px-4 py-8">
-      <div className="mb-4">
-        <h1 className="text-2xl font-bold">Chat</h1>
-        <p className="text-muted-foreground">
-          Test your chatbot and review responses
-        </p>
-      </div>
+    <div className="flex h-full flex-col">
 
       {/* Negative Feedback Dialog */}
       <AlertDialog open={feedbackDialogOpen} onOpenChange={setFeedbackDialogOpen}>
@@ -318,7 +312,7 @@ export default function ChatPage({
       </AlertDialog>
 
       {/* Chat Card */}
-      <Card className="flex flex-1 flex-col overflow-hidden">
+      <Card className="flex flex-1 flex-col overflow-hidden rounded-none border-x-0 border-b-0">
         <CardContent className="flex flex-1 flex-col overflow-hidden p-0">
           {/* Chat Header Bar */}
           <div className="flex items-center justify-between border-b px-4 py-3">

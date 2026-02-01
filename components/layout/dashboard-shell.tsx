@@ -36,7 +36,7 @@ export function DashboardShell({ children }: DashboardShellProps) {
           <AvatarDropdown />
         </header>
         {/* Main content */}
-        <main className="flex-1 overflow-y-auto">{children}</main>
+        <main className="flex-1 overflow-y-auto [&>div.flex.h-full]:overflow-hidden">{children}</main>
       </div>
 
       {/* Create Service Dialog (controlled externally) */}
